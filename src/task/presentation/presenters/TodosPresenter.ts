@@ -9,10 +9,10 @@ export class TodosPresenter implements IGetTodosPresenter {
       todoListView.push(
         new TodoViewModel(
           item.id,
-          item.name,
+          item.title,
           item.description,
-          new Date(item.created_at).toLocaleDateString('fr-FR'),
-          new Date(item.due_date).toLocaleDateString('fr-FR'),
+          item.createdAt.toLocaleDateString('fr-FR'),
+          item.dueDate.toLocaleDateString('fr-FR'),
           item.status
         )
       )

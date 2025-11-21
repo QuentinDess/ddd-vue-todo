@@ -7,7 +7,6 @@ import type { TodosPresenter } from '@/task/presentation/presenters/TodosPresent
 import { DeleteTodoUseCase } from '@/task/application/DeleteTodo/DeleteTodoUseCase.ts'
 import type { InMemoryEventBus } from '@/core/infrastructure/events/InMemoryEventBus.ts'
 import { TodoDeletedEvent } from '@/task/domain/events/TodoDeletedEvent.ts'
-import type { DeleteTodoPresenter } from '@/task/presentation/presenters/DeleteTodoPresenter.ts'
 import { useErrorStore } from '@/core/ui/store/error.ts'
 
 export const useTodoStore = defineStore('todo-store', () => {

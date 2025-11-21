@@ -21,10 +21,7 @@ export function todoModule(router: Router) {
 
   container.bind<ITodoRepository>(INTERFACES.ITodoRepository).to(LocalStorageTodoRepository)
   container.bind<IGetTodosPresenter>(INTERFACES.IGetTodosPresenter).to(TodosPresenter)
-  container
-    .bind<IDeleteTodoPresenter>(INTERFACES.IDeleteTodoPresenter)
-    .to(DeleteTodoPresenter)
-    .inSingletonScope()
+  container.bind<IDeleteTodoPresenter>(INTERFACES.IDeleteTodoPresenter).to(DeleteTodoPresenter)
   container.bind(GetTodosUseCase).toSelf()
   container.bind(DeleteTodoUseCase).toSelf()
   container.bind(TodoSeederService).toSelf()
