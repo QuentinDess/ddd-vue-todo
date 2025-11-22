@@ -69,6 +69,7 @@ declare global {
   const useSlots: typeof import('vue').useSlots
   const useTemplateRef: typeof import('vue').useTemplateRef
   const useTodoStore: typeof import('./src/task/presentation/ui/stores/todoStore').useTodoStore
+  const useUiEventStore: typeof import('./src/task/presentation/ui/stores/uiTodoEventStore').useUiEventStore
   const watch: typeof import('vue').watch
   const watchEffect: typeof import('vue').watchEffect
   const watchPostEffect: typeof import('vue').watchPostEffect

@@ -7,8 +7,8 @@ export class TodoTitle {
     if (!title || title.trim().length === 0) {
       throw new DomainError('Title cannot be empty')
     }
-    if (title.length > 100) {
-      throw new DomainError('Title cannot exceed 100 characters')
+    if (title.length > 50) {
+      throw new DomainError('Title cannot exceed 50 characters')
     }
     return new TodoTitle(title)
   }

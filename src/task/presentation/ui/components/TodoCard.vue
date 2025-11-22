@@ -39,6 +39,7 @@ const cardClass = computed(() => {
 })
 watch(activeError, () => {
   if (activeError) {
+    console.log(activeError)
     editableTodo.value = {
       title: props.todo.title,
       description: props.todo.description
@@ -53,17 +54,19 @@ const isCompleted = computed(() => {
 const canBeEdited = computed(() => {
   return props.todo.status !== 'aborted' && props.todo.status !== 'completed'
 })
+const startEditing = () => {
+  editableTodo.value = {
+    title: props.todo.title,
+    description: props.todo.description
+  }
+  isEditMode.value = true
+}
 
 const emits = defineEmits<{
   (e: 'delete', id: string): void
   (e: 'complete', id: string): void
   (e: 'abort', id: string): void
-  (
-    e: 'update',
-    updated: Partial<Omit<IPatchTodoCommand, 'id'>> & {
-      id: string
-    }
-  ): void
+  (e: 'update', updated: Partial<IPatchTodoCommand> & { id: string }): void
 }>()
 
 const sendUpdate = async (): Promise<void> => {
@@ -127,11 +130,11 @@ const sendUpdate = async (): Promise<void> => {
           <Ban class="h-4 w-4" />
         </Button>
         <Button
-          v-if="canBeEdited"
+          v-if="canBeEdited && !isEditMode"
           variant="ghost"
           size="icon"
           class="h-8 w-8 hover:cursor-pointer"
-          @click="isEditMode = !isEditMode"
+          @click="startEditing"
         >
           <Pencil class="h-4 w-4" />
         </Button>
