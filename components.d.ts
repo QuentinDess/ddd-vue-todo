@@ -11,9 +11,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Alert: typeof import('./src/components/ui/alert/Alert.vue')['default']
-    AlertDescription: typeof import('./src/components/ui/alert/AlertDescription.vue')['default']
-    AlertTitle: typeof import('./src/components/ui/alert/AlertTitle.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

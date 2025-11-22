@@ -7,12 +7,13 @@ import { TodoTitle } from '@/task/domain/value_objects/TodoTitle.ts'
 import { TodoDescription } from '@/task/domain/value_objects/TodoDescription.ts'
 import { CompletionWindow } from '@/task/domain/value_objects/CompletionWindow.ts'
 import { TodoUpdatedEvent } from '@/task/domain/events/TodoUpdateEvent.ts'
+import { CannotDoTodoTransition } from '@/task/domain/error/CannotDoTodoTransition.ts'
 export class Todo {
   public constructor(
     private _title: TodoTitle,
     private _description: TodoDescription,
     private _completionWindow: CompletionWindow,
-    public readonly status: TodoStatus,
+    private _status: TodoStatus,
     public readonly id: string
   ) {}
 
@@ -35,6 +36,10 @@ export class Todo {
     return this._description.getValue()
   }
 
+  public get status(): TodoStatus {
+    return this._status
+  }
+
   public get createdAt(): Date {
     return this._completionWindow.getCreatedAt()
   }
@@ -53,7 +58,7 @@ export class Todo {
     this.domainEvents.push(new TodoUpdatedEvent(this))
   }
 
-  private domainEvents: ITodoEvent[] = []
+  public domainEvents: ITodoEvent[] = []
 
   public delete(): void {
     if (this.status === TodoStatus.COMPLETED) {
@@ -67,5 +72,21 @@ export class Todo {
     const events = [...this.domainEvents]
     this.domainEvents = []
     return events
+  }
+
+  complete() {
+    if (this.status === TodoStatus.COMPLETED || this.status === TodoStatus.ABORTED) {
+      throw new CannotDoTodoTransition(this.status, TodoStatus.COMPLETED)
+    }
+    this._status = TodoStatus.COMPLETED
+    this.domainEvents.push(new TodoUpdatedEvent(this))
+  }
+
+  abort() {
+    if (this.status === TodoStatus.COMPLETED || this.status === TodoStatus.ABORTED) {
+      throw new CannotDoTodoTransition(this.status, TodoStatus.ABORTED)
+    }
+    this._status = TodoStatus.ABORTED
+    this.domainEvents.push(new TodoUpdatedEvent(this))
   }
 }

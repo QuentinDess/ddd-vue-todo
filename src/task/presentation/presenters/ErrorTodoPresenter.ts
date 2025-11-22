@@ -1,6 +1,6 @@
 import type { IErrorTodoPresenter } from '@/task/application/presenters/IErrorTodoPresenter.ts'
 import type { DomainError } from '@/core/domain/error/DomainError.ts'
-import { ErrorViewModel } from '@/core/ui/view/ErrorViewModel.ts'
+import { ErrorViewModel } from '@/core/presentation/ui/view/ErrorViewModel.ts'
 import type { IErrorViewModel } from '@/core/application/view/IErrorViewModel'
 import type { NotFoundError } from '@/task/domain/error/NotFoundError.ts'
 
