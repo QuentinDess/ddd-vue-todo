@@ -5,7 +5,7 @@ import { Button } from '@/core/ui/components/button'
 import { Badge } from '@/core/ui/components/badge'
 import { TodoViewModel } from '@/task/presentation/view/TodoViewModel.ts'
 import { computed, ref } from 'vue'
-import type { IPatchTodoCommand } from '@/task/application/PatchTodo/IPatchTodoCommand.ts'
+import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPatchTodoCommand.ts'
 
 const props = defineProps<{
   todo: TodoViewModel

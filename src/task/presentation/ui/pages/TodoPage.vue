@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TodoCard from '@/task/presentation/ui/components/TodoCard.vue'
-import type { IPatchTodoCommand } from '@/task/application/PatchTodo/IPatchTodoCommand.ts'
+import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPatchTodoCommand.ts'
 
 const todoStore = useTodoStore()
 const { todos } = storeToRefs(todoStore)
