@@ -7,8 +7,6 @@ import type { IDeleteTodoCommand } from '@/task/application/command/DeleteTodo/I
 import type { IEventBus } from '@/core/infrastructure/events/IEventBus.ts'
 import { NotFoundError } from '@/task/domain/error/NotFoundError.ts'
 import { DomainError } from '@/core/domain/error/DomainError.ts'
-import type { IErrorViewModel } from '@/core/application/view/IErrorViewModel.ts'
-import type { IErrorTodoPresenter } from '@/task/application/presenters/IErrorTodoPresenter.ts'
 import { TodoDeletedEvent } from '@/task/domain/events/TodoDeletedEvent.ts'
 import type { IDeleteTodoPresenter } from '@/task/application/presenters/IDeleteTodoPresenter.ts'
 

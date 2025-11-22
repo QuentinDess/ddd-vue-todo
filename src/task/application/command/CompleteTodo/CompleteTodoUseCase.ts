@@ -1,0 +1,43 @@
+import type { IUseCase } from '@/task/application/IUseCase.ts'
+import { inject, injectable } from 'inversify'
+import { INTERFACES } from '@/task/infrastructure/di/interfaces.ts'
+import { INTERFACES as CORE_INTERFACES } from '@/core/infrastructure/di/interfaces.ts'
+import type { ITodoRepository } from '@/task/domain/repository/ITodoRepository.ts'
+import type { IEventBus } from '@/core/infrastructure/events/IEventBus.ts'
+import { NotFoundError } from '@/task/domain/error/NotFoundError.ts'
+import { DomainError } from '@/core/domain/error/DomainError.ts'
+import type { IGetTodoPresenter } from '@/task/application/presenters/IGetTodoPresenter.ts'
+import type { ICompleteTodoCommand } from '@/task/application/command/CompleteTodo/ICompleteTodoCommand.ts'
+import { ApplicationTodoTransitionEvent } from '@/task/application/events/ApplicationTodoTransitionEvent.ts'
+
+@injectable()
+export class CompleteTodoUseCase implements IUseCase<ICompleteTodoCommand, void> {
+  public constructor(
+    @inject(INTERFACES.ITodoRepository) private readonly _todoRepository: ITodoRepository,
+    @inject(CORE_INTERFACES.IEventBus) private readonly _eventBus: IEventBus
+  ) {}
+
+  public async execute(input: ICompleteTodoCommand, presenter: IGetTodoPresenter): Promise<void> {
+    try {
+      const todo = await this._todoRepository.findById(input.id)
+      if (null === todo) {
+        throw new NotFoundError(`Todo with id ${input.id} not found`)
+      }
+      todo.complete()
+      await this._todoRepository.update(todo)
+      todo.pullDomainEvents().forEach((event) => this._eventBus.publish(event))
+      this._eventBus.publish(new ApplicationTodoTransitionEvent(todo))
+      presenter.presentTodo(todo)
+    } catch (err) {
+      if (err instanceof DomainError) {
+        presenter.presentDomainError(err)
+        return
+      }
+      if (err instanceof NotFoundError) {
+        presenter.presentNotFoundError(err)
+        return
+      }
+      throw err
+    }
+  }
+}

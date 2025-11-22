@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { FlagIcon, CheckCircle, Pencil, Trash, Ban } from 'lucide-vue-next'
-import { Card, CardContent, CardHeader } from '@/core/ui/components/card'
-import { Button } from '@/core/ui/components/button'
-import { Badge } from '@/core/ui/components/badge'
+import { Card, CardContent, CardHeader } from '@/core/presentation/ui/components/card'
+import { Button } from '@/core/presentation/ui/components/button'
+import { Badge } from '@/core/presentation/ui/components/badge'
 import { TodoViewModel } from '@/task/presentation/view/TodoViewModel.ts'
 import { computed, ref, watch } from 'vue'
 import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPatchTodoCommand.ts'
-import { useErrorStore } from '@/core/ui/store/error.ts'
+import { useErrorStore } from '@/core/presentation/ui/store/error.ts'
 const errorStore = useErrorStore()
 const { activeError } = storeToRefs(errorStore)
 
@@ -39,6 +39,7 @@ const cardClass = computed(() => {
 })
 watch(activeError, () => {
   if (activeError) {
+    console.log(activeError)
     editableTodo.value = {
       title: props.todo.title,
       description: props.todo.description
@@ -53,17 +54,19 @@ const isCompleted = computed(() => {
 const canBeEdited = computed(() => {
   return props.todo.status !== 'aborted' && props.todo.status !== 'completed'
 })
+const startEditing = () => {
+  editableTodo.value = {
+    title: props.todo.title,
+    description: props.todo.description
+  }
+  isEditMode.value = true
+}
 
 const emits = defineEmits<{
   (e: 'delete', id: string): void
   (e: 'complete', id: string): void
   (e: 'abort', id: string): void
-  (
-    e: 'update',
-    updated: Partial<Omit<IPatchTodoCommand, 'id'>> & {
-      id: string
-    }
-  ): void
+  (e: 'update', updated: Partial<IPatchTodoCommand> & { id: string }): void
 }>()
 
 const sendUpdate = async (): Promise<void> => {
@@ -84,9 +87,14 @@ const sendUpdate = async (): Promise<void> => {
       <!-- Checkbox + Title -->
       <div class="flex items-start gap-3">
         <div class="flex flex-col">
-          <Badge variant="secondary" :class="badgeClass">
-            {{ todo.status }}
-          </Badge>
+          <div class="flex items-center gap-2">
+            <Badge variant="secondary" :class="badgeClass">
+              {{ todo.status }}
+            </Badge>
+            <span>
+              {{ todo.chillIcon }}
+            </span>
+          </div>
           <h3
             v-if="!isEditMode"
             class="text-gray-900 font-medium text-base px-1 py-1 my-1"
@@ -127,11 +135,11 @@ const sendUpdate = async (): Promise<void> => {
           <Ban class="h-4 w-4" />
         </Button>
         <Button
-          v-if="canBeEdited"
+          v-if="canBeEdited && !isEditMode"
           variant="ghost"
           size="icon"
           class="h-8 w-8 hover:cursor-pointer"
-          @click="isEditMode = !isEditMode"
+          @click="startEditing"
         >
           <Pencil class="h-4 w-4" />
         </Button>

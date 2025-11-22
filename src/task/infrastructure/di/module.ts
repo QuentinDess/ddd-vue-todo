@@ -14,20 +14,31 @@ import { TodoPresenter } from '@/task/presentation/presenters/TodoPresenter.ts'
 import { PatchTodoUseCase } from '@/task/application/command/PatchTodo/PatchTodoUseCase.ts'
 import { DeletedTodoPresenter } from '@/task/presentation/presenters/DeletedTodoPresenter.ts'
 import type { IDeleteTodoPresenter } from '@/task/application/presenters/IDeleteTodoPresenter.ts'
+import { CompleteTodoUseCase } from '@/task/application/command/CompleteTodo/CompleteTodoUseCase.ts'
+import { AbortTodoUseCase } from '@/task/application/command/AbortTodo/AbortTodoUseCase.ts'
+import CreateTodoButton from '@/task/presentation/ui/components/CreateTodoButton.vue'
+import { navActions } from '@/core/presentation/ui/store/navStore.ts'
+import { CreateTodoUseCase } from '@/task/application/command/CreateTodo/CreateTodoUseCase.ts'
+import type { ITodoFactory } from '@/task/domain/factory/ITodoFactory.ts'
+import { TodoFactory } from '@/task/domain/factory/TodoFactory.ts'
 
 export function todoModule(router: Router) {
   router.addRoute({
-    path: '/todo',
+    path: '/',
     name: 'Todo',
     component: TodoPage
   })
-
+  navActions.push(CreateTodoButton)
   container.bind<ITodoRepository>(INTERFACES.ITodoRepository).to(LocalStorageTodoRepository)
   container.bind<IGetTodosPresenter>(INTERFACES.IGetTodosPresenter).to(TodosPresenter)
   container.bind<IGetTodoPresenter>(INTERFACES.IGetTodoPresenter).to(TodoPresenter).inRequestScope()
   container.bind<IDeleteTodoPresenter>(INTERFACES.IDeleteTodoPresenter).to(DeletedTodoPresenter)
+  container.bind<ITodoFactory>(INTERFACES.ITodoFactory).to(TodoFactory)
   container.bind(GetTodosUseCase).toSelf()
+  container.bind(CompleteTodoUseCase).toSelf()
   container.bind(PatchTodoUseCase).toSelf()
   container.bind(DeleteTodoUseCase).toSelf()
   container.bind(TodoSeederService).toSelf()
+  container.bind(AbortTodoUseCase).toSelf()
+  container.bind(CreateTodoUseCase).toSelf()
 }

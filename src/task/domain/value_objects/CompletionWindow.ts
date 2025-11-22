@@ -7,10 +7,14 @@ export class CompletionWindow {
   ) {}
 
   public static create(createdAt: Date, dueDate: Date): CompletionWindow {
-    if (dueDate <= createdAt) {
-      throw new DomainError('Due date must be after creation date.')
-    }
-    console.log(createdAt)
+    this.noCreatedAtInFuture(createdAt)
+    this.dueDateShouldBeAfterCreateDate(dueDate, createdAt)
+    this.noTodayDueDate(createdAt, dueDate)
+
+    return new CompletionWindow(createdAt, dueDate)
+  }
+
+  private static noTodayDueDate(createdAt: Date, dueDate: Date) {
     const sameDay =
       createdAt.getFullYear() === dueDate.getFullYear() &&
       createdAt.getMonth() === dueDate.getMonth() &&
@@ -19,8 +23,18 @@ export class CompletionWindow {
     if (sameDay) {
       throw new DomainError('Due date cannot be on the same day as creation date.')
     }
+  }
 
-    return new CompletionWindow(createdAt, dueDate)
+  private static dueDateShouldBeAfterCreateDate(dueDate: Date, createdAt: Date) {
+    if (dueDate <= createdAt) {
+      throw new DomainError('Due date must be after creation date.')
+    }
+  }
+
+  private static noCreatedAtInFuture(createdAt: Date) {
+    if (createdAt.getTime() > Date.now()) {
+      throw new DomainError('Creation date cannot be in the future.')
+    }
   }
 
   getCreatedAt() {

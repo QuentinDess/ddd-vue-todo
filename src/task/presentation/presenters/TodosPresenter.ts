@@ -4,8 +4,8 @@ import { TodoViewModel } from '@/task/presentation/view/TodoViewModel.ts'
 import { ErrorTodoPresenter } from '@/task/presentation/presenters/ErrorTodoPresenter.ts'
 
 export class TodosPresenter extends ErrorTodoPresenter implements IGetTodosPresenter {
-  viewModel: TodoViewModel[]
-  presentTodoList(todoList: Todo[]): TodoViewModel[] {
+  public viewModel?: TodoViewModel[]
+  presentTodoList(todoList: Todo[]): void {
     const todoListView = []
     for (const item of todoList) {
       todoListView.push(
@@ -15,7 +15,8 @@ export class TodosPresenter extends ErrorTodoPresenter implements IGetTodosPrese
           item.description,
           item.createdAt.toLocaleDateString('fr-FR'),
           item.dueDate.toLocaleDateString('fr-FR'),
-          item.status
+          item.status,
+          item.getChillometer()
         )
       )
     }
