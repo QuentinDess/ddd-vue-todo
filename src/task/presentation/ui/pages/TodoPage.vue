@@ -1,18 +1,23 @@
 <script setup lang="ts">
 import TodoCard from '@/task/presentation/ui/components/TodoCard.vue'
+import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPatchTodoCommand.ts'
 
 const todoStore = useTodoStore()
 const { todos } = storeToRefs(todoStore)
 
-const { getTodos, deleteTodo } = useTodoStore()
+const { getTodos, deleteTodo, patchTodo } = useTodoStore()
 await getTodos()
-
-const edit = async (): Promise<void> => {}
 </script>
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-    <TodoCard v-for="todo in todos" :key="todo.id" :todo="todo" @delete="(id) => deleteTodo(id)" />
+    <TodoCard
+      v-for="todo in todos"
+      :key="todo.id"
+      :todo="todo"
+      @delete="(id) => deleteTodo(id)"
+      @update="(updated) => patchTodo(updated)"
+    />
   </div>
 </template>
 
