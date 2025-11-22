@@ -8,7 +8,7 @@ export class TodoViewModel implements ITodoViewModel {
     public createdAt: string,
     public dueDate: string,
     public status: string,
-    public chillometer: number
+    public chillometer: number | null
   ) {}
 
   public get chillIcon(): string | null {

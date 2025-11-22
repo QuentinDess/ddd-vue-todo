@@ -89,7 +89,6 @@ export class Todo {
 
   public pullDomainEvents(): object[] {
     const events = [...this.domainEvents]
-    console.log(events)
     this.domainEvents = []
     return events
   }
