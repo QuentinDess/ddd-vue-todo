@@ -10,7 +10,9 @@ const uiEvents = useUiEventStore()
 const { currentEvent } = storeToRefs(uiEvents)
 
 const { todos } = storeToRefs(todoStore)
+const { getTodos, deleteTodo, patchTodo, completeTodo, abortTodo } = useTodoStore()
 
+/** Animation setup with vue Rewards **/
 const { reward: fireConfetti } = useReward('transition-reward-origin', 'confetti', {
   startVelocity: 30,
   spread: 90,
@@ -39,7 +41,6 @@ watch(currentEvent, (evt) => {
     uiEvents.consume()
   }
 })
-const { getTodos, deleteTodo, patchTodo, completeTodo } = useTodoStore()
 await getTodos()
 </script>
 
@@ -61,6 +62,7 @@ await getTodos()
       @delete="(id) => deleteTodo(id)"
       @update="(updated) => patchTodo(updated)"
       @complete="(id) => completeTodo(id)"
+      @abort="(id) => abortTodo(id)"
     />
   </div>
 </template>

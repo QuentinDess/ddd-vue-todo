@@ -86,7 +86,7 @@ export class Todo {
     if (this.status === TodoStatus.COMPLETED || this.status === TodoStatus.ABORTED) {
       throw new CannotDoTodoTransition(this.status, TodoStatus.ABORTED)
     }
-    this._status = TodoStatus.COMPLETED
+    this._status = TodoStatus.ABORTED
     this.domainEvents.push(new TodoUpdatedEvent(this))
   }
 }
