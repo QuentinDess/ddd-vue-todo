@@ -11,7 +11,6 @@ import type { ICreateTodoCommand } from '@/task/application/command/CreateTodo/I
 import { TodoDescription } from '@/task/domain/value_objects/TodoDescription.ts'
 import { Todo } from '@/task/domain/entity/Todo.ts'
 import { TodoTitle } from '@/task/domain/value_objects/TodoTitle.ts'
-import { TodoStatus } from '@/task/domain/entity/TodoStatus.ts'
 import { TodoCreatedEvent } from '@/task/domain/events/TodoCreatedEvent.ts'
 
 @injectable()
