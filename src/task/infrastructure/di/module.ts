@@ -19,7 +19,7 @@ import { AbortTodoUseCase } from '@/task/application/command/AbortTodo/AbortTodo
 
 export function todoModule(router: Router) {
   router.addRoute({
-    path: '/todo',
+    path: '/',
     name: 'Todo',
     component: TodoPage
   })

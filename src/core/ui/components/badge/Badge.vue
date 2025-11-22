@@ -4,7 +4,7 @@ import type { HTMLAttributes } from 'vue'
 import type { BadgeVariants } from './index.ts'
 import { reactiveOmit } from '@vueuse/core'
 import { Primitive } from 'reka-ui'
-import { cn } from '@/lib/utils.ts'
+import { cn } from '@/core/ui/components/lib/utils.ts'
 import { badgeVariants } from './index.ts'
 
 const props = defineProps<
