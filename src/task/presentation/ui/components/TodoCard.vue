@@ -60,9 +60,7 @@ const emits = defineEmits<{
   (e: 'abort', id: string): void
   (
     e: 'update',
-    updated: Partial<Omit<IPatchTodoCommand, 'id'>> & {
-      id: string
-    }
+    updated: Partial<IPatchTodoCommand> & { id: string }
   ): void
 }>()
 

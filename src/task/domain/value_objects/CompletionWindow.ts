@@ -10,7 +10,6 @@ export class CompletionWindow {
     if (dueDate <= createdAt) {
       throw new DomainError('Due date must be after creation date.')
     }
-    console.log(createdAt)
     const sameDay =
       createdAt.getFullYear() === dueDate.getFullYear() &&
       createdAt.getMonth() === dueDate.getMonth() &&

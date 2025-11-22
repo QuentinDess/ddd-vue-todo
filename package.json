@@ -37,6 +37,7 @@
     "unplugin-vue-router": "^0.17.0",
     "uuid": "^13.0.0",
     "vue": "^3.5.22",
+    "vue-rewards": "^1.0.3",
     "vue-router": "^4.6.3",
     "vue-sonner": "^2.0.9"
   },

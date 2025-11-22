@@ -9,6 +9,7 @@ import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPa
 import { PatchTodoUseCase } from '@/task/application/command/PatchTodo/PatchTodoUseCase.ts'
 import type { TodoPresenter } from '@/task/presentation/presenters/TodoPresenter.ts'
 import type { DeletedTodoPresenter } from '@/task/presentation/presenters/DeletedTodoPresenter.ts'
+import { CompleteTodoUseCase } from '@/task/application/command/CompleteTodo/CompleteTodoUseCase.ts'
 
 export const useTodoStore = defineStore('todo-store', () => {
   const todos = ref<TodoViewModel[]>([])
@@ -28,14 +29,24 @@ export const useTodoStore = defineStore('todo-store', () => {
     const presenter = container.get<DeletedTodoPresenter>(INTERFACES.IDeleteTodoPresenter)
     await service.execute({ id: id }, presenter)
     const { errorViewModel, deletedTodo } = presenter
-    if (errorViewModel) {
-      useErrorStore().setActiveError(errorViewModel)
-      throw new Error(errorViewModel.message)
-    }
+    if (errorViewModel) return useErrorStore().setActiveError(errorViewModel)
     if (deletedTodo) todos.value = todos.value.filter((t) => t.id !== deletedTodo)
   }
 
-  const patchTodo = async (updated: Partial<Omit<IPatchTodoCommand, 'id'>> & { id: string }) => {
+  const completeTodo = async (id: string) => {
+    const service = container.get(CompleteTodoUseCase)
+    const presenter = container.get<TodoPresenter>(INTERFACES.IGetTodoPresenter)
+    await service.execute({ id: id }, presenter)
+    const { errorViewModel, viewModel } = presenter
+    if (errorViewModel) return useErrorStore().setActiveError(errorViewModel)
+    if (viewModel) {
+      todos.value = todos.value.map((t: TodoViewModel) =>
+        t.id === presenter.viewModel?.id ? { ...presenter.viewModel } : t
+      )
+    }
+  }
+
+  const patchTodo = async (updated: Partial<IPatchTodoCommand> & { id: string }) => {
     const service = container.get(PatchTodoUseCase)
     const presenter = container.get<TodoPresenter>(INTERFACES.IGetTodoPresenter)
     await service.execute(updated, presenter)
@@ -48,5 +59,5 @@ export const useTodoStore = defineStore('todo-store', () => {
     }
   }
 
-  return { todos, getTodos, deleteTodo, patchTodo }
+  return { todos, getTodos, deleteTodo, patchTodo, completeTodo }
 })

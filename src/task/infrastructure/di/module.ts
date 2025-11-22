@@ -14,6 +14,7 @@ import { TodoPresenter } from '@/task/presentation/presenters/TodoPresenter.ts'
 import { PatchTodoUseCase } from '@/task/application/command/PatchTodo/PatchTodoUseCase.ts'
 import { DeletedTodoPresenter } from '@/task/presentation/presenters/DeletedTodoPresenter.ts'
 import type { IDeleteTodoPresenter } from '@/task/application/presenters/IDeleteTodoPresenter.ts'
+import { CompleteTodoUseCase } from '@/task/application/command/CompleteTodo/CompleteTodoUseCase.ts'
 
 export function todoModule(router: Router) {
   router.addRoute({
@@ -27,6 +28,7 @@ export function todoModule(router: Router) {
   container.bind<IGetTodoPresenter>(INTERFACES.IGetTodoPresenter).to(TodoPresenter).inRequestScope()
   container.bind<IDeleteTodoPresenter>(INTERFACES.IDeleteTodoPresenter).to(DeletedTodoPresenter)
   container.bind(GetTodosUseCase).toSelf()
+  container.bind(CompleteTodoUseCase).toSelf()
   container.bind(PatchTodoUseCase).toSelf()
   container.bind(DeleteTodoUseCase).toSelf()
   container.bind(TodoSeederService).toSelf()
