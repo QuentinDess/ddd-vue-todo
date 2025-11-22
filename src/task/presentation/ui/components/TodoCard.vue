@@ -87,9 +87,14 @@ const sendUpdate = async (): Promise<void> => {
       <!-- Checkbox + Title -->
       <div class="flex items-start gap-3">
         <div class="flex flex-col">
-          <Badge variant="secondary" :class="badgeClass">
-            {{ todo.status }}
-          </Badge>
+          <div class="flex items-center gap-2">
+            <Badge variant="secondary" :class="badgeClass">
+              {{ todo.status }}
+            </Badge>
+            <span>
+              {{ todo.chillIcon }}
+            </span>
+          </div>
           <h3
             v-if="!isEditMode"
             class="text-gray-900 font-medium text-base px-1 py-1 my-1"

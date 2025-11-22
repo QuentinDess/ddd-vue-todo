@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Button } from '@/core/presentation/ui/components/button'
 import { PlusIcon } from 'lucide-vue-next'
+import type { ICreateTodoCommand } from '@/task/application/command/CreateTodo/ICreateTodoCommand.ts'
+const { createTodo } = useTodoStore()
+import { closeSheet } from '@/core/presentation/ui/store/sheetStore.ts'
 
-const title = ref('')
-const description = ref('')
-
-const submit = (data: any) => {
-  console.log('Creating task:', data)
+const createTodoFormData = {
+  title: '',
+  description: '',
+  due_date: '2025-11-24'
+}
+const submit = (data: ICreateTodoCommand) => {
+  createTodo({ ...data })
+  closeSheet()
 }
 </script>
 
@@ -24,21 +28,20 @@ const submit = (data: any) => {
         :config="{
           validationVisibility: 'submit'
         }"
-        submit-label="Create Todo"
+        :actions="false"
         :classes="{
           form: 'space-y-4',
-          input: 'font-medium',
-          button:
-            'px-3 py-1 bg-green-500 text-white rounded hover:bg-green-700 hover:border-b-green-950 hover:cursor-pointer'
+          input: 'font-medium'
         }"
       >
         <FormKit
           type="text"
-          name="name"
-          id="name"
-          label="Name"
-          placeholder="My new task"
-          validation="required|length:1,255"
+          name="title"
+          id="title"
+          label="Title"
+          placeholder="New Todo"
+          validation="required"
+          v-model="createTodoFormData.title"
           :classes="{
             outer: 'space-y-1',
             label: 'text-sm font-medium',
@@ -52,13 +55,29 @@ const submit = (data: any) => {
           id="description"
           label="Description"
           placeholder="Task description"
-          validation="length:0,500"
+          validation="required"
+          v-model="createTodoFormData.description"
           :classes="{
             outer: 'space-y-1',
             label: 'text-sm font-medium',
             input: 'w-full rounded-md border px-3 py-2 shadow-sm min-h-[120px]'
           }"
         />
+
+        <FormKit
+          type="date"
+          v-model="createTodoFormData.due_date"
+          label="Due Date"
+          id="dueDate"
+          name="dueDate"
+          help="When is the deadline"
+          validation="required"
+          validation-visibility="live"
+        />
+        <FormKit type="submit">
+          <PlusIcon class="w-4 h-4" />
+          Add a Todo
+        </FormKit>
       </FormKit>
     </div>
   </div>

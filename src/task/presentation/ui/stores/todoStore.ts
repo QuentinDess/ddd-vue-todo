@@ -11,6 +11,8 @@ import type { TodoPresenter } from '@/task/presentation/presenters/TodoPresenter
 import type { DeletedTodoPresenter } from '@/task/presentation/presenters/DeletedTodoPresenter.ts'
 import { CompleteTodoUseCase } from '@/task/application/command/CompleteTodo/CompleteTodoUseCase.ts'
 import { AbortTodoUseCase } from '@/task/application/command/AbortTodo/AbortTodoUseCase.ts'
+import type { ICreateTodoCommand } from '@/task/application/command/CreateTodo/ICreateTodoCommand.ts'
+import { CreateTodoUseCase } from '@/task/application/command/CreateTodo/CreateTodoUseCase.ts'
 
 export const useTodoStore = defineStore('todo-store', () => {
   const todos = ref<TodoViewModel[]>([])
@@ -47,6 +49,17 @@ export const useTodoStore = defineStore('todo-store', () => {
     }
   }
 
+  const createTodo = async (created: ICreateTodoCommand) => {
+    const handler = container.get(CreateTodoUseCase)
+    const presenter = container.get<TodoPresenter>(INTERFACES.IGetTodoPresenter)
+    await handler.execute(created, presenter)
+    const { errorViewModel, viewModel } = presenter
+    if (errorViewModel) return useErrorStore().setActiveError(errorViewModel)
+    if (viewModel) {
+      todos.value.push(viewModel)
+    }
+  }
+
   const abortTodo = async (id: string) => {
     const handler = container.get(AbortTodoUseCase)
     const presenter = container.get<TodoPresenter>(INTERFACES.IGetTodoPresenter)
@@ -73,5 +86,5 @@ export const useTodoStore = defineStore('todo-store', () => {
     }
   }
 
-  return { todos, getTodos, deleteTodo, patchTodo, completeTodo, abortTodo }
+  return { todos, getTodos, deleteTodo, patchTodo, completeTodo, abortTodo, createTodo }
 })

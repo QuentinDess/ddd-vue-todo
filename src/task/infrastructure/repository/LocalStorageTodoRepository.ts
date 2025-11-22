@@ -3,9 +3,10 @@ import type { ITodoRepository } from '@/task/domain/repository/ITodoRepository'
 import { injectable, inject } from 'inversify'
 import { TodoSeederService } from '@/task/infrastructure/fixtures/TodoSeederService'
 import { TodoTitle } from '@/task/domain/value_objects/TodoTitle.ts'
-import { faker } from '@faker-js/faker/locale/ar'
 import type { TodoStatus } from '@/task/domain/entity/TodoStatus.ts'
 import { TodoDescription } from '@/task/domain/value_objects/TodoDescription.ts'
+import { INTERFACES } from '@/task/infrastructure/di/interfaces.ts'
+import type { ITodoFactory } from '@/task/domain/factory/ITodoFactory.ts'
 
 const STORAGE_KEY = 'todos'
 
@@ -22,7 +23,8 @@ export interface ISerializedTodo {
 export class LocalStorageTodoRepository implements ITodoRepository {
   constructor(
     @inject(TodoSeederService)
-    private readonly seeder: TodoSeederService
+    private readonly seeder: TodoSeederService,
+    @inject(INTERFACES.ITodoFactory) private readonly _todoFactory: ITodoFactory
   ) {
     this.ensureSeeded()
   }
@@ -39,14 +41,14 @@ export class LocalStorageTodoRepository implements ITodoRepository {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return []
     return JSON.parse(raw).map((t: ISerializedTodo) =>
-      Todo.create(
-        TodoTitle.create(t.title),
-        TodoDescription.create(t.description),
-        new Date(t.created_at),
-        new Date(t.due_date),
-        t.status,
-        t.id
-      )
+      this._todoFactory.fromPrimitive({
+        title: t.title,
+        description: t.description,
+        createdAt: t.created_at,
+        dueDate: t.due_date,
+        status: t.status,
+        id: t.id
+      })
     )
   }
 

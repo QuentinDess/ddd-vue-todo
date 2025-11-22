@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import type { Component } from 'vue'
 
 export const sheetOpen = ref(false)
-export const sheetContent = ref<Component | null>(null)
+export const sheetContent = shallowRef<Component | null>(null)
 
 export const openSheet = (content: Component) => {
   sheetContent.value = content

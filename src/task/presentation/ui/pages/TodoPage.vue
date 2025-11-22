@@ -54,7 +54,7 @@ await getTodos()
     style="position: fixed; top: 10%; left: 50%; pointer-events: none"
   ></span>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
     <TodoCard
       v-for="todo in todos"
       :key="todo.id"
