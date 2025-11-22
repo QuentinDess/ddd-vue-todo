@@ -6,14 +6,12 @@ export const useErrorStore = defineStore('error-store', () => {
 
   const setActiveError = (error: ErrorViewModel): void => {
     activeError.value = error
-
+    console.error(error)
     toast.error('Issue have been retrieved', {
       position: 'top-right',
       duration: 3000,
       description: activeError.value.message
     })
-
-    clearActiveError()
   }
   const clearActiveError = (): void => {
     activeError.value = null

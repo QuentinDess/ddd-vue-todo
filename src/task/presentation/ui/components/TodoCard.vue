@@ -4,8 +4,11 @@ import { Card, CardContent, CardHeader } from '@/core/ui/components/card'
 import { Button } from '@/core/ui/components/button'
 import { Badge } from '@/core/ui/components/badge'
 import { TodoViewModel } from '@/task/presentation/view/TodoViewModel.ts'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPatchTodoCommand.ts'
+import { useErrorStore } from '@/core/ui/store/error.ts'
+const errorStore = useErrorStore()
+const { activeError } = storeToRefs(errorStore)
 
 const props = defineProps<{
   todo: TodoViewModel
@@ -34,15 +37,20 @@ const cardClass = computed(() => {
   ])
   return cardClassMap.get(props.todo.status) ?? ''
 })
-
-const canBeCompleted = computed(() => {
-  return props.todo.status !== 'completed'
+watch(activeError, () => {
+  if (activeError) {
+    editableTodo.value = {
+      title: props.todo.title,
+      description: props.todo.description
+    }
+    useErrorStore().clearActiveError()
+  }
 })
+
 const isCompleted = computed(() => {
   return props.todo.status === 'completed'
 })
-
-const canBeAborted = computed(() => {
+const canBeEdited = computed(() => {
   return props.todo.status !== 'aborted' && props.todo.status !== 'completed'
 })
 
@@ -63,6 +71,7 @@ const sendUpdate = async (): Promise<void> => {
     id: props.todo.id,
     ...editableTodo.value
   })
+  isEditMode.value = false
 }
 </script>
 
@@ -100,7 +109,7 @@ const sendUpdate = async (): Promise<void> => {
       <!-- Action Buttons -->
       <div class="grid-cols-2 grid gap-2">
         <Button
-          v-if="canBeCompleted"
+          v-if="canBeEdited"
           variant="ghost"
           size="icon"
           class="h-8 w-8 text-green-600 hover:text-green-700 hover:cursor-pointer"
@@ -109,7 +118,7 @@ const sendUpdate = async (): Promise<void> => {
           <FlagIcon class="h-4 w-4" />
         </Button>
         <Button
-          v-if="canBeAborted"
+          v-if="canBeEdited"
           variant="ghost"
           size="icon"
           class="h-8 w-8 text-red-600 hover:text-ored-700 hover:cursor-pointer"
@@ -118,7 +127,7 @@ const sendUpdate = async (): Promise<void> => {
           <Ban class="h-4 w-4" />
         </Button>
         <Button
-          v-if="!isCompleted && !isEditMode"
+          v-if="canBeEdited"
           variant="ghost"
           size="icon"
           class="h-8 w-8 hover:cursor-pointer"
@@ -127,7 +136,7 @@ const sendUpdate = async (): Promise<void> => {
           <Pencil class="h-4 w-4" />
         </Button>
         <Button
-          v-if="isEditMode"
+          v-if="isEditMode && canBeEdited"
           variant="ghost"
           size="icon"
           class="h-8 w-8 text-green-600 hover:text-green-700 hover:cursor-pointer"

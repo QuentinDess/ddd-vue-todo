@@ -28,7 +28,10 @@ export const useTodoStore = defineStore('todo-store', () => {
     const presenter = container.get<DeletedTodoPresenter>(INTERFACES.IDeleteTodoPresenter)
     await service.execute({ id: id }, presenter)
     const { errorViewModel, deletedTodo } = presenter
-    if (errorViewModel) return useErrorStore().setActiveError(errorViewModel)
+    if (errorViewModel) {
+      useErrorStore().setActiveError(errorViewModel)
+      throw new Error(errorViewModel.message)
+    }
     if (deletedTodo) todos.value = todos.value.filter((t) => t.id !== deletedTodo)
   }
 
