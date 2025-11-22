@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { FlagIcon, CheckCircle, Pencil, Trash, Ban } from 'lucide-vue-next'
-import { Card, CardContent, CardHeader } from '@/core/ui/components/card'
-import { Button } from '@/core/ui/components/button'
-import { Badge } from '@/core/ui/components/badge'
+import { Card, CardContent, CardHeader } from '@/core/presentation/ui/components/card'
+import { Button } from '@/core/presentation/ui/components/button'
+import { Badge } from '@/core/presentation/ui/components/badge'
 import { TodoViewModel } from '@/task/presentation/view/TodoViewModel.ts'
 import { computed, ref, watch } from 'vue'
 import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPatchTodoCommand.ts'
-import { useErrorStore } from '@/core/ui/store/error.ts'
+import { useErrorStore } from '@/core/presentation/ui/store/error.ts'
 const errorStore = useErrorStore()
 const { activeError } = storeToRefs(errorStore)
 
@@ -87,9 +87,14 @@ const sendUpdate = async (): Promise<void> => {
       <!-- Checkbox + Title -->
       <div class="flex items-start gap-3">
         <div class="flex flex-col">
-          <Badge variant="secondary" :class="badgeClass">
-            {{ todo.status }}
-          </Badge>
+          <div class="flex items-center gap-2">
+            <Badge variant="secondary" :class="badgeClass">
+              {{ todo.status }}
+            </Badge>
+            <span>
+              {{ todo.chillIcon }}
+            </span>
+          </div>
           <h3
             v-if="!isEditMode"
             class="text-gray-900 font-medium text-base px-1 py-1 my-1"

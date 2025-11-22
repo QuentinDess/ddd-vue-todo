@@ -8,8 +8,11 @@ import { TodoDescription } from '@/task/domain/value_objects/TodoDescription.ts'
 import { CompletionWindow } from '@/task/domain/value_objects/CompletionWindow.ts'
 import { TodoUpdatedEvent } from '@/task/domain/events/TodoUpdateEvent.ts'
 import { CannotDoTodoTransition } from '@/task/domain/error/CannotDoTodoTransition.ts'
+import { TodoCreatedEvent } from '@/task/domain/events/TodoCreatedEvent.ts'
+import { DomainError } from '@/core/domain/error/DomainError.ts'
+
 export class Todo {
-  public constructor(
+  private constructor(
     private _title: TodoTitle,
     private _description: TodoDescription,
     private _completionWindow: CompletionWindow,
@@ -17,18 +20,32 @@ export class Todo {
     public readonly id: string
   ) {}
 
-  public static create(
-    title: TodoTitle,
-    description: TodoDescription,
-    createdAt: Date,
-    dueDate: Date,
-    status: TodoStatus,
-    id: string = uuidv4()
-  ): Todo {
-    const dateRange = CompletionWindow.create(createdAt, dueDate)
-    return new Todo(title, description, dateRange, status, id)
+  public static create(title: TodoTitle, description: TodoDescription, dueDate: Date): Todo {
+    const dateRange = CompletionWindow.create(new Date(), dueDate)
+    const todo = new Todo(title, description, dateRange, TodoStatus.IN_PROGRESS, uuidv4())
+    todo.domainEvents.push(new TodoCreatedEvent(todo))
+
+    return todo
   }
 
+  public getChillometer(): number | null {
+    if (this._status === TodoStatus.COMPLETED || this._status === TodoStatus.ABORTED) {
+      return null
+    }
+
+    const now = new Date()
+    const totalTime =
+      this._completionWindow.getDueDate().getTime() -
+      this._completionWindow.getCreatedAt().getTime()
+    const remainingTime = this._completionWindow.getDueDate().getTime() - now.getTime()
+
+    let ratio = remainingTime / totalTime
+    if (ratio < 0) ratio = 0
+    if (ratio > 1) ratio = 1
+
+    // Plus de temps restant = chillometer faible (chill)
+    return Math.round((1 - ratio) * 100)
+  }
   public get title(): string {
     return this._title.getValue()
   }
@@ -49,16 +66,18 @@ export class Todo {
   }
 
   public updateTitle(newTitle: string) {
+    this.noUpdateOnCompletedTodo()
     this._title = TodoTitle.create(newTitle)
     this.domainEvents.push(new TodoUpdatedEvent(this))
   }
 
   public updateDescription(newDescription: string) {
+    this.noUpdateOnCompletedTodo()
     this._description = TodoDescription.create(newDescription)
     this.domainEvents.push(new TodoUpdatedEvent(this))
   }
 
-  public domainEvents: ITodoEvent[] = []
+  private domainEvents: ITodoEvent[] = []
 
   public delete(): void {
     if (this.status === TodoStatus.COMPLETED) {
@@ -88,5 +107,21 @@ export class Todo {
     }
     this._status = TodoStatus.ABORTED
     this.domainEvents.push(new TodoUpdatedEvent(this))
+  }
+
+  private noUpdateOnCompletedTodo(): void {
+    if (this.status === TodoStatus.COMPLETED) {
+      throw new DomainError('You should not update completed todo')
+    }
+  }
+
+  public static reconstitute(
+    id: string,
+    title: TodoTitle,
+    description: TodoDescription,
+    completionWindow: CompletionWindow,
+    status: TodoStatus
+  ): Todo {
+    return new Todo(title, description, completionWindow, status, id)
   }
 }

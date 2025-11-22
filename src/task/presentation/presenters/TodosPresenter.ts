@@ -15,7 +15,8 @@ export class TodosPresenter extends ErrorTodoPresenter implements IGetTodosPrese
           item.description,
           item.createdAt.toLocaleDateString('fr-FR'),
           item.dueDate.toLocaleDateString('fr-FR'),
-          item.status
+          item.status,
+          item.getChillometer()
         )
       )
     }

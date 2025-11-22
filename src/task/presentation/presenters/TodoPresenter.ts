@@ -12,7 +12,8 @@ export class TodoPresenter extends ErrorTodoPresenter implements IGetTodoPresent
       todo.description,
       todo.createdAt.toLocaleDateString('fr-FR'),
       todo.dueDate.toLocaleDateString('fr-FR'),
-      todo.status
+      todo.status,
+      todo.getChillometer()
     )
   }
 }
