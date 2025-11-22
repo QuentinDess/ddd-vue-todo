@@ -3,5 +3,6 @@ import type { ITodoViewModel } from '@/task/application/query/GetTodosUseCase/IT
 import type { IPresenter } from '@/task/application/presenters/IPresenter.ts'
 
 export interface IGetTodosPresenter extends IPresenter {
-  presentTodoList(todoList: Todo[]): ITodoViewModel[]
+  viewModel?: ITodoViewModel[]
+  presentTodoList(todoList: Todo[]): void
 }
