@@ -8,6 +8,10 @@ import { DeleteTodoUseCase } from '@/task/application/DeleteTodo/DeleteTodoUseCa
 import type { InMemoryEventBus } from '@/core/infrastructure/events/InMemoryEventBus.ts'
 import { TodoDeletedEvent } from '@/task/domain/events/TodoDeletedEvent.ts'
 import { useErrorStore } from '@/core/ui/store/error.ts'
+import type { IPatchTodoCommand } from '@/task/application/PatchTodo/IPatchTodoCommand.ts'
+import { ErrorTodoPresenter } from '@/task/presentation/presenters/ErrorTodoPresenter.ts'
+import { PatchTodoUseCase } from '@/task/application/PatchTodo/PatchTodoUseCase.ts'
+import type { TodoPresenter } from '@/task/presentation/presenters/TodoPresenter.ts'
 
 export const useTodoStore = defineStore('todo-store', () => {
   const todos = ref<TodoViewModel[]>([])
@@ -31,5 +35,16 @@ export const useTodoStore = defineStore('todo-store', () => {
     if (error) useErrorStore().setActiveError(error)
   }
 
-  return { todos, getTodos, deleteTodo }
+  const patchTodo = async (updated: Partial<Omit<IPatchTodoCommand, 'id'>> & { id: string }) => {
+    const service = container.get(PatchTodoUseCase)
+    await service.execute(updated)
+    const presenter = container.get<TodoPresenter>(INTERFACES.IGetTodoPresenter)
+    if (presenter.viewModel !== undefined) {
+      todos.value = todos.value.map((t: TodoViewModel) =>
+        t.id === presenter.viewModel?.id ? ({ ...presenter.viewModel } as TodoViewModel) : t
+      )
+    }
+  }
+
+  return { todos, getTodos, deleteTodo, patchTodo }
 })

@@ -6,6 +6,7 @@ import { CannotDeleteCompletedTodo } from '@/task/domain/error/CannotDeleteCompl
 import { TodoTitle } from '@/task/domain/value_objects/TodoTitle.ts'
 import { TodoDescription } from '@/task/domain/value_objects/TodoDescription.ts'
 import { CompletionWindow } from '@/task/domain/value_objects/CompletionWindow.ts'
+import { TodoUpdatedEvent } from '@/task/domain/events/TodoUpdateEvent.ts'
 export class Todo {
   public constructor(
     private _title: TodoTitle,
@@ -44,10 +45,12 @@ export class Todo {
 
   public updateTitle(newTitle: string) {
     this._title = TodoTitle.create(newTitle)
+    this.domainEvents.push(new TodoUpdatedEvent(this))
   }
 
   public updateDescription(newDescription: string) {
     this._description = TodoDescription.create(newDescription)
+    this.domainEvents.push(new TodoUpdatedEvent(this))
   }
 
   private domainEvents: ITodoEvent[] = []

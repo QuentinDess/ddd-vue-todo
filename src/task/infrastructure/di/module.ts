@@ -9,8 +9,11 @@ import { TodoSeederService } from '@/task/infrastructure/fixtures/TodoSeederServ
 import { TodosPresenter } from '@/task/presentation/presenters/TodosPresenter.ts'
 import type { IGetTodosPresenter } from '@/task/application/GetTodosUseCase/IGetTodosPresenter.ts'
 import { DeleteTodoUseCase } from '@/task/application/DeleteTodo/DeleteTodoUseCase.ts'
-import { DeleteTodoPresenter } from '@/task/presentation/presenters/DeleteTodoPresenter.ts'
-import type { IDeleteTodoPresenter } from '@/task/application/DeleteTodo/IDeleteTodoPresenter.ts'
+import { ErrorTodoPresenter } from '@/task/presentation/presenters/ErrorTodoPresenter.ts'
+import type { IErrorTodoPresenter } from '@/task/presentation/presenters/IErrorTodoPresenter.ts'
+import type { IGetTodoPresenter } from '@/task/application/IGetTodosPresenter.ts'
+import { TodoPresenter } from '@/task/presentation/presenters/TodoPresenter.ts'
+import { PatchTodoUseCase } from '@/task/application/PatchTodo/PatchTodoUseCase.ts'
 
 export function todoModule(router: Router) {
   router.addRoute({
@@ -21,8 +24,10 @@ export function todoModule(router: Router) {
 
   container.bind<ITodoRepository>(INTERFACES.ITodoRepository).to(LocalStorageTodoRepository)
   container.bind<IGetTodosPresenter>(INTERFACES.IGetTodosPresenter).to(TodosPresenter)
-  container.bind<IDeleteTodoPresenter>(INTERFACES.IDeleteTodoPresenter).to(DeleteTodoPresenter)
+  container.bind<IGetTodoPresenter>(INTERFACES.IGetTodoPresenter).to(TodoPresenter)
+  container.bind<IErrorTodoPresenter>(INTERFACES.IErrorTodoPresenter).to(ErrorTodoPresenter)
   container.bind(GetTodosUseCase).toSelf()
+  container.bind(PatchTodoUseCase).toSelf()
   container.bind(DeleteTodoUseCase).toSelf()
   container.bind(TodoSeederService).toSelf()
 }
