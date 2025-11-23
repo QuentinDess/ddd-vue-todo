@@ -9,7 +9,8 @@ export class StatisticPresenter extends ErrorPresenter implements IStatisticPres
     this.viewModel = new StatisticViewModel(
       statistic.totalCompleted,
       statistic.totalCreated,
-      statistic.totalAborted
+      statistic.totalAborted,
+      statistic.computedPerformanceScore().value
     )
   }
 }

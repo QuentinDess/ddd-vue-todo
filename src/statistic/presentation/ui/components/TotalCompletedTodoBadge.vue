@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ChartColumnIncreasing } from 'lucide-vue-next'
+import { Trophy } from 'lucide-vue-next'
+
 const statisticStore = useStatisticStore()
 
 const { statistic } = storeToRefs(statisticStore)
@@ -11,7 +12,7 @@ onMounted(async () => {
 
 <template>
   <div class="flex justify-between items-center gap-2">
-    <ChartColumnIncreasing />
+    <Trophy />
     {{ statistic?.totalCompleted }}
   </div>
 </template>

@@ -1,5 +1,6 @@
 import { NonNegativeNumber } from '@/statistic/domain/value_objects/NonNegativeNumber.ts'
 import { AverageCompletionTime } from '@/statistic/domain/value_objects/AverageCompletionTime.ts'
+import { PerformanceScore } from '@/statistic/domain/value_objects/PerformanceScore.ts'
 
 export class GlobalTodoStatistic {
   constructor(
@@ -8,6 +9,25 @@ export class GlobalTodoStatistic {
     private _totalAborted: NonNegativeNumber = new NonNegativeNumber(0),
     private _averageCompletionTime: AverageCompletionTime = new AverageCompletionTime()
   ) {}
+  static readonly TARGETED_COMPLETION_TIME = 22
+
+  computedPerformanceScore(): PerformanceScore {
+    if (this.totalCreated === 0) {
+      return new PerformanceScore(0)
+    }
+
+    const completionRate = this.totalCompleted / this.totalCreated
+
+    const average = this.averageCompletionTime
+
+    const timeEfficiency = average
+      ? Math.min(1, GlobalTodoStatistic.TARGETED_COMPLETION_TIME / average)
+      : 0
+
+    const score = completionRate * 70 + timeEfficiency * 30
+
+    return new PerformanceScore(Math.round(score))
+  }
 
   recordCreated() {
     this._totalCreated = this._totalCreated.increment()

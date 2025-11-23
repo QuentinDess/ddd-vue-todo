@@ -14,10 +14,12 @@ import TotalCreatedTodoBadge from '@/statistic/presentation/ui/components/TotalC
 import { RecordTodoCompletedUseCase } from '@/statistic/application/command/RecordTodoCompleted/RecordTodoCompletedUseCase.ts'
 import TotalAbortedTodoBadge from '@/statistic/presentation/ui/components/TotalAbortedTodoBadge.vue'
 import { RecordTodoAbortedUseCase } from '@/statistic/application/command/RecordTodoAborted/RecordTodoAbortedUseCase.ts'
+import PerformanceGauge from '@/statistic/presentation/ui/components/PerformanceGauge.vue'
 export function statisticModule(_router: Router) {
   registerModuleAction(TotalCompletedTodoBadge)
   registerModuleAction(TotalCreatedTodoBadge)
   registerModuleAction(TotalAbortedTodoBadge)
+  registerModuleAction(PerformanceGauge)
   container
     .bind<IGlobalTodoStatisticRepository>(INTERFACES.IGlobalTodoStatisticRepository)
     .to(LocalStorageGlobalTodoStatisticsRepository)
