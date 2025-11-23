@@ -79,7 +79,7 @@ const sendUpdate = async (): Promise<void> => {
 
 <template>
   <Card
-    class="bg-opacity-25 border shadow-sm hover:shadow-md transition-shadow rounded-lg cursor-pointer select-none py-3"
+    class="bg-opacity-25 border shadow-sm hover:shadow-md transition-shadow rounded-lg select-none py-3"
     :class="cardClass"
   >
     <CardHeader class="flex flex-row items-start justify-between py-1 px-3">
