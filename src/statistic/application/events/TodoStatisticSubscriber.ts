@@ -15,20 +15,20 @@ import { RecordTodoDeletedUseCase } from '@/statistic/application/command/Record
 export class TodoStatisticSubscriber {
   constructor(@inject(CORE_INTERFACES.IEventBus) private _eventBus: IEventBus) {}
 
-  subscribe(): void {
-    this._eventBus.subscribe(
+  async subscribe(): Promise<void> {
+    await this._eventBus.subscribe(
       TodoCreatedIntegrationEvent,
       async (event: TodoCreatedIntegrationEvent) => await this.onTodoCreated(event)
     )
-    this._eventBus.subscribe(
+    await this._eventBus.subscribe(
       TodoCompletedIntegrationEvent,
       async (event: TodoCompletedIntegrationEvent) => await this.onTodoCompleted(event)
     )
-    this._eventBus.subscribe(
+    await this._eventBus.subscribe(
       TodoAbortedIntegrationEvent,
       async (event: TodoAbortedIntegrationEvent) => await this.onTodoAborted(event)
     )
-    this._eventBus.subscribe(
+    await this._eventBus.subscribe(
       TodoDeletedIntegrationEvent,
       async (event: TodoDeletedIntegrationEvent) => await this.onTodoDeleted(event)
     )
