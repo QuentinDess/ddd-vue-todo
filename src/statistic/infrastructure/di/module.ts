@@ -16,7 +16,7 @@ import TotalAbortedTodoBadge from '@/statistic/presentation/ui/components/TotalA
 import { RecordTodoAbortedUseCase } from '@/statistic/application/command/RecordTodoAborted/RecordTodoAbortedUseCase.ts'
 import PerformanceGauge from '@/statistic/presentation/ui/components/PerformanceGauge.vue'
 import { RecordTodoDeletedUseCase } from '@/statistic/application/command/RecordTodoDeleted/RecordTodoDeletedUseCase.ts'
-export async function statisticModule(_router: Router) {
+export function statisticModule(_router: Router) {
   registerModuleAction(TotalCompletedTodoBadge)
   registerModuleAction(TotalCreatedTodoBadge)
   registerModuleAction(TotalAbortedTodoBadge)
@@ -32,5 +32,5 @@ export async function statisticModule(_router: Router) {
   container.bind(RecordTodoCompletedUseCase).toSelf()
   container.bind(RecordTodoDeletedUseCase).toSelf()
   const todoStatisticSubscriber = container.get<TodoStatisticSubscriber>(TodoStatisticSubscriber)
-  await todoStatisticSubscriber.subscribe()
+  todoStatisticSubscriber.subscribe()
 }

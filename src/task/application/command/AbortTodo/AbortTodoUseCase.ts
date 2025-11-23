@@ -26,7 +26,9 @@ export class AbortTodoUseCase implements IUseCase<IAbortTodoCommand, void> {
       }
       todo.abort()
       await this._todoRepository.update(todo)
-      todo.pullDomainEvents().forEach((event) => this._eventBus.publish(event))
+      await Promise.all(
+        todo.pullDomainEvents().map(async (event) => await this._eventBus.publish(event))
+      )
       this._eventBus.publish(new ApplicationTodoTransitionEvent(todo))
       this._eventBus.publish(new TodoAbortedIntegrationEvent(todo.id))
       presenter.presentTodo(todo)

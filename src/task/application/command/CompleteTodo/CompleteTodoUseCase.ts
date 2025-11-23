@@ -26,7 +26,9 @@ export class CompleteTodoUseCase implements IUseCase<ICompleteTodoCommand, void>
       }
       todo.complete()
       await this._todoRepository.update(todo)
-      todo.pullDomainEvents().forEach((event) => this._eventBus.publish(event))
+      await Promise.all(
+        todo.pullDomainEvents().map(async (event) => await this._eventBus.publish(event))
+      )
       this._eventBus.publish(new ApplicationTodoTransitionEvent(todo))
       this._eventBus.publish(new TodoCompletedIntegrationEvent(todo.completionTime()))
       presenter.presentTodo(todo)

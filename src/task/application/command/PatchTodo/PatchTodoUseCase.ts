@@ -33,7 +33,9 @@ export class PatchTodoUseCase implements IUseCase<IPatchTodoCommand, void> {
         presenter.presentTodo(event.todo)
       })
 
-      todo.pullDomainEvents().forEach((event) => this._eventBus.publish(event))
+      await Promise.all(
+        todo.pullDomainEvents().map(async (event) => await this._eventBus.publish(event))
+      )
     } catch (err) {
       if (err instanceof DomainError) {
         presenter.presentDomainError(err)

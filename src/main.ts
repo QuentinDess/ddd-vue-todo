@@ -13,7 +13,7 @@ export const router = createRouter({
 })
 
 const app = createApp(App)
-await registerModules(router)
+registerModules(router)
 app.use(createPinia())
 app.use(router)
 

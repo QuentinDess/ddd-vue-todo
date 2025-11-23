@@ -9,8 +9,8 @@ import { TodoCreatedIntegrationEvent } from '@/task/integration/events/TodoCreat
 export class TodoEventACLSubscriber {
   constructor(@inject(CORE_INTERFACES.IEventBus) private readonly _eventBus: IEventBus) {}
 
-  async subscribe() {
-    await this._eventBus.subscribe(TodoCreatedEvent, (event: TodoCreatedEvent) => {
+  subscribe() {
+    this._eventBus.subscribe(TodoCreatedEvent, (event: TodoCreatedEvent) => {
       const todoCreatedIntegrationEvent = new TodoCreatedIntegrationEvent(event.todo.id)
       this._eventBus.publish(todoCreatedIntegrationEvent)
     })

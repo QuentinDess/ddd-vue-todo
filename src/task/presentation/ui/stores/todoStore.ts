@@ -54,11 +54,13 @@ export const useTodoStore = defineStore('todo-store', () => {
     const presenter = container.get<TodoPresenter>(INTERFACES.IGetTodoPresenter)
     await handler.execute(created, presenter)
     const { errorViewModel, viewModel } = presenter
+    console.log(errorViewModel, viewModel)
     if (errorViewModel) {
       useErrorStore().setActiveError(errorViewModel)
       throw new Error(errorViewModel.message)
     }
     if (viewModel) {
+      console.log(viewModel)
       todos.value.push(viewModel)
     }
   }

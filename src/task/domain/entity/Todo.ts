@@ -34,18 +34,32 @@ export class Todo {
     }
 
     const now = new Date()
-    const totalTime =
-      this._completionWindow.getDueDate().getTime() -
-      this._completionWindow.getCreatedAt().getTime()
-    const remainingTime = this._completionWindow.getDueDate().getTime() - now.getTime()
+    now.setHours(0, 0, 0, 0)
+    const nowTime = now.getTime()
 
-    let ratio = remainingTime / totalTime
-    if (ratio < 0) ratio = 0
-    if (ratio > 1) ratio = 1
+    const createdAtDate = new Date(this._completionWindow.getCreatedAt())
+    createdAtDate.setHours(0, 0, 0, 0)
+    const createdAt = createdAtDate.getTime()
 
-    // Plus de temps restant = chillometer faible (chill)
-    return Math.round((1 - ratio) * 100)
+    const dueDateObj = new Date(this._completionWindow.getDueDate())
+    dueDateObj.setHours(0, 0, 0, 0)
+    const dueDate = dueDateObj.getTime()
+
+    const totalTime = dueDate - createdAt
+    const remainingTime = dueDate - nowTime
+
+    const totalDays = totalTime / (1000 * 60 * 60 * 24)
+    const remainingDays = remainingTime / (1000 * 60 * 60 * 24)
+
+    if (remainingTime <= 0) return 100
+    if (totalTime <= 0) return 100
+
+    const remainingPressure = Math.max(0, 100 - remainingDays * 0.5)
+    const deadlinePressure = Math.max(0, 100 - totalDays * 0.5)
+
+    return Math.round(Math.max(remainingPressure, deadlinePressure))
   }
+
   public get title(): string {
     return this._title.getValue()
   }

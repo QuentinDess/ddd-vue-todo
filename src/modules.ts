@@ -5,6 +5,6 @@ import { statisticModule } from '@/statistic/infrastructure/di/module.ts'
 
 export async function registerModules(router: Router) {
   coreModule()
-  await statisticModule(router)
-  await todoModule(router)
+  statisticModule(router)
+  todoModule(router)
 }

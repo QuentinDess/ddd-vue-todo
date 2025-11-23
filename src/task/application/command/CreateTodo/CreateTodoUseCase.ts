@@ -22,6 +22,7 @@ export class CreateTodoUseCase implements IUseCase<ICreateTodoCommand, void> {
 
   public async execute(input: ICreateTodoCommand, presenter: IGetTodoPresenter): Promise<void> {
     try {
+      console.log(input)
       this._eventBus.subscribe(TodoCreatedEvent, (event: TodoCreatedEvent) => {
         presenter.presentTodo(event.todo)
       })
@@ -34,7 +35,9 @@ export class CreateTodoUseCase implements IUseCase<ICreateTodoCommand, void> {
 
       await this._todoRepository.save(todo)
 
-      todo.pullDomainEvents().forEach((event) => this._eventBus.publish(event))
+      await Promise.all(
+        todo.pullDomainEvents().map(async (event) => await this._eventBus.publish(event))
+      )
     } catch (err) {
       if (err instanceof DomainError) {
         presenter.presentDomainError(err)
@@ -42,7 +45,9 @@ export class CreateTodoUseCase implements IUseCase<ICreateTodoCommand, void> {
       }
       if (err instanceof NotFoundError) {
         presenter.presentNotFoundError(err)
+        return
       }
+      console.error(err)
       throw err
     }
   }

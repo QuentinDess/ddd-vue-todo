@@ -23,7 +23,7 @@ import type { ITodoFactory } from '@/task/domain/factory/ITodoFactory.ts'
 import { TodoFactory } from '@/task/domain/factory/TodoFactory.ts'
 import { TodoEventACLSubscriber } from '@/task/application/listeners/TodoEventACLSubscriber.ts'
 
-export async function todoModule(router: Router) {
+export function todoModule(router: Router) {
   router.addRoute({
     path: '/',
     name: 'Todo',
@@ -44,5 +44,5 @@ export async function todoModule(router: Router) {
   container.bind(CreateTodoUseCase).toSelf()
   container.bind(TodoEventACLSubscriber).toSelf().inSingletonScope()
   const todoEventACLSubscriber = container.get(TodoEventACLSubscriber)
-  await todoEventACLSubscriber.subscribe()
+  todoEventACLSubscriber.subscribe()
 }

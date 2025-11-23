@@ -11,6 +11,7 @@ const createTodoFormData = {
 }
 const submit = async (data: ICreateTodoCommand) => {
   try {
+    console.log(data)
     await createTodo({ ...data })
     closeSheet()
   } catch (_error) {
