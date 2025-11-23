@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import VueSpeedometer from 'vue-speedometer'
 const statisticStore = useStatisticStore()
-
 const { statistic } = storeToRefs(statisticStore)
 const { getStatistic } = useStatisticStore()
 onMounted(async () => {
@@ -22,7 +21,6 @@ onMounted(async () => {
       :segments="3"
       :segment-colors="['#ef4444', '#facc15', '#22c55e']"
       :needle-height-ratio="0.4"
-      needle-color="white"
       :ring-width="20"
       :max-segment-labels="0"
       currentValueText=" "
