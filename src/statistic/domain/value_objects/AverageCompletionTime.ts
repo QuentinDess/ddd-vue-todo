@@ -23,4 +23,11 @@ export class AverageCompletionTime {
     avg._count = json.count
     return avg
   }
+
+  removeCompletion(durationMs: number, totalCompleted: number) {
+    const newAverage = new AverageCompletionTime()
+    newAverage._totalDuration = this._totalDuration - durationMs
+    newAverage._count = totalCompleted
+    return newAverage
+  }
 }

@@ -8,6 +8,8 @@ import { TodoCompletedIntegrationEvent } from '@/task/integration/events/TodoCom
 import { RecordTodoCompletedUseCase } from '@/statistic/application/command/RecordTodoCompleted/RecordTodoCompletedUseCase.ts'
 import { TodoAbortedIntegrationEvent } from '@/task/integration/events/TodoAbortedIntegrationEvent.ts'
 import { RecordTodoAbortedUseCase } from '@/statistic/application/command/RecordTodoAborted/RecordTodoAbortedUseCase.ts'
+import { TodoDeletedIntegrationEvent } from '@/task/integration/events/TodoDeletedIntegrationEvent.ts'
+import { RecordTodoDeletedUseCase } from '@/statistic/application/command/RecordTodoDeleted/RecordTodoDeletedUseCase.ts'
 
 @injectable()
 export class TodoStatisticSubscriber {
@@ -26,6 +28,10 @@ export class TodoStatisticSubscriber {
       TodoAbortedIntegrationEvent,
       async (event: TodoAbortedIntegrationEvent) => await this.onTodoAborted(event)
     )
+    this._eventBus.subscribe(
+      TodoDeletedIntegrationEvent,
+      async (event: TodoDeletedIntegrationEvent) => await this.onTodoDeleted(event)
+    )
   }
 
   private async onTodoCreated(_event: TodoCreatedIntegrationEvent) {
@@ -41,5 +47,10 @@ export class TodoStatisticSubscriber {
   private async onTodoAborted(_event: TodoAbortedIntegrationEvent) {
     const handler = container.get<RecordTodoAbortedUseCase>(RecordTodoAbortedUseCase)
     await handler.execute({})
+  }
+
+  private async onTodoDeleted(event: TodoDeletedIntegrationEvent) {
+    const handler = container.get<RecordTodoDeletedUseCase>(RecordTodoDeletedUseCase)
+    await handler.execute({ status: event.status, durationMs: event.completionTime })
   }
 }

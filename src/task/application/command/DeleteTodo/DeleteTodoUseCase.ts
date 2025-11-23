@@ -9,6 +9,7 @@ import { NotFoundError } from '@/core/domain/error/NotFoundError.ts'
 import { DomainError } from '@/core/domain/error/DomainError.ts'
 import { TodoDeletedEvent } from '@/task/domain/events/TodoDeletedEvent.ts'
 import type { IDeleteTodoPresenter } from '@/task/application/presenters/IDeleteTodoPresenter.ts'
+import { TodoDeletedIntegrationEvent } from '@/task/integration/events/TodoDeletedIntegrationEvent.ts'
 
 @injectable()
 export class DeleteTodoUseCase implements IUseCase<IDeleteTodoCommand, void> {
@@ -29,7 +30,12 @@ export class DeleteTodoUseCase implements IUseCase<IDeleteTodoCommand, void> {
       this._eventBus.subscribe(TodoDeletedEvent, (event: TodoDeletedEvent) => {
         presenter.presentDeletedTodo(event.id)
       })
-      todo.pullDomainEvents().forEach((event) => this._eventBus.publish(event))
+      await Promise.all(
+        todo.pullDomainEvents().map(async (event) => await this._eventBus.publish(event))
+      )
+      await this._eventBus.publish(
+        new TodoDeletedIntegrationEvent(todo.status, todo.completionTime)
+      )
     } catch (err) {
       if (err instanceof DomainError) {
         presenter.presentDomainError(err)
