@@ -31,9 +31,9 @@ const badgeClass = computed(() => {
 
 const cardClass = computed(() => {
   const cardClassMap = new Map<string, string>([
-    ['completed', 'bg-green-300 border-green-400'],
-    ['in_progress', 'bg-blue-300 border-blue-400'],
-    ['aborted', 'bg-red-300 border-red-400']
+    ['completed', 'bg-green-300/60 border-green-400'],
+    ['in_progress', 'bg-blue-300/60 border-blue-400'],
+    ['aborted', 'bg-red-300/60 border-red-400']
   ])
   return cardClassMap.get(props.todo.status) ?? ''
 })
@@ -80,14 +80,14 @@ const sendUpdate = async (): Promise<void> => {
 
 <template>
   <Card
-    class="border shadow-sm hover:shadow-md transition-shadow rounded-xl cursor-pointer select-none"
+    class="bg-opacity-25 border shadow-sm hover:shadow-md transition-shadow rounded-xs cursor-pointer select-none"
     :class="cardClass"
   >
-    <CardHeader class="flex flex-row items-start justify-between py-3">
+    <CardHeader class="flex flex-row items-start justify-between py-1">
       <!-- Checkbox + Title -->
-      <div class="flex items-start gap-3">
+      <div class="flex items-start gap-1">
         <div class="flex flex-col">
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1">
             <Badge variant="secondary" :class="badgeClass">
               {{ todo.status }}
             </Badge>
@@ -109,8 +109,8 @@ const sendUpdate = async (): Promise<void> => {
             class="font-medium text-base p-0 border text-gray-900 w-full border-b-black focus:outline-none py-1 my-1"
             :disabled="isCompleted"
           />
-          <p class="text-xs text-gray-500 mt-1">Created: {{ todo.createdAt }}</p>
-          <p class="text-xs text-gray-500 mt-1">Due Date: {{ todo.dueDate }}</p>
+          <p class="text-xs text-gray-700 mt-1">Created: {{ todo.createdAt }}</p>
+          <p class="text-xs text-gray-700 mt-1">Due Date: {{ todo.dueDate }}</p>
         </div>
       </div>
 
@@ -165,10 +165,10 @@ const sendUpdate = async (): Promise<void> => {
     </CardHeader>
 
     <CardContent class="pb-4 flex items-center justify-center">
-      <p v-if="!isEditMode" class="text-sm text-gray-600">{{ todo.description }}</p>
+      <p v-if="!isEditMode" class="text-sm text-gray-700">{{ todo.description }}</p>
       <div
         v-else
-        class="grid w-full py-2 border-b border-black text-gray-600 text-sm [&>textarea]:text-inherit [&>textarea]:resize-none [&>textarea]:overflow-hidden [&>textarea]:[grid-area:1/1/2/2] after:[grid-area:1/1/2/2] after:whitespace-pre-wrap after:invisible after:content-[attr(data-cloned-val)] after:border-b after:border-black"
+        class="grid w-full py-2 border-b border-black text-gray-700 text-sm [&>textarea]:text-inherit [&>textarea]:resize-none [&>textarea]:overflow-hidden [&>textarea]:[grid-area:1/1/2/2] after:[grid-area:1/1/2/2] after:whitespace-pre-wrap after:invisible after:content-[attr(data-cloned-val)] after:border-b after:border-black"
         :data-cloned-val="editableTodo.description"
       >
         <textarea
