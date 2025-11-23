@@ -79,10 +79,10 @@ const sendUpdate = async (): Promise<void> => {
 
 <template>
   <Card
-    class="bg-opacity-25 border shadow-sm hover:shadow-md transition-shadow rounded-lg cursor-pointer select-none"
+    class="bg-opacity-25 border shadow-sm hover:shadow-md transition-shadow rounded-lg cursor-pointer select-none py-3"
     :class="cardClass"
   >
-    <CardHeader class="flex flex-row items-start justify-between py-1">
+    <CardHeader class="flex flex-row items-start justify-between py-1 px-3">
       <!-- Checkbox + Title -->
       <div class="flex items-start gap-1">
         <div class="flex flex-col">
@@ -163,7 +163,7 @@ const sendUpdate = async (): Promise<void> => {
       </div>
     </CardHeader>
 
-    <CardContent class="pb-4 flex items-center justify-center">
+    <CardContent class="flex items-center justify-center py-1 px-3">
       <p v-if="!isEditMode" class="w-full text-sm text-gray-700">
         {{ todo.description }}
       </p>
