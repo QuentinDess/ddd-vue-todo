@@ -6,6 +6,10 @@ import type { IStatisticPresenter } from '@/statistic/application/presenters/ISt
 export class StatisticPresenter extends ErrorPresenter implements IStatisticPresenter {
   public viewModel?: StatisticViewModel
   presentStatistic(statistic: Readonly<GlobalTodoStatistic>): void {
-    this.viewModel = new StatisticViewModel(statistic.totalCompleted, statistic.totalCreated)
+    this.viewModel = new StatisticViewModel(
+      statistic.totalCompleted,
+      statistic.totalCreated,
+      statistic.totalAborted
+    )
   }
 }

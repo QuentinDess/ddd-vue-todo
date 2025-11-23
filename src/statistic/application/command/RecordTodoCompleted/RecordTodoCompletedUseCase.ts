@@ -5,7 +5,7 @@ import type { IEventBus } from '@/core/infrastructure/events/IEventBus.ts'
 import type { IGlobalTodoStatisticRepository } from '@/statistic/domain/repository/IGlobalTodoStatisticRepository.ts'
 import { INTERFACES } from '@/statistic/infrastructure/di/interfaces.ts'
 import { ApplicationStatisticUpdatedEvent } from '@/statistic/application/events/ApplicationStatisticUpdatedEvent.ts'
-import type { IRecordTodoCompletedCommand } from '@/statistic/application/command/RecordTodoTransition/IRecordTodoCompletedCommand.ts'
+import type { IRecordTodoCompletedCommand } from '@/statistic/application/command/RecordTodoCompleted/IRecordTodoCompletedCommand.ts'
 
 @injectable()
 export class RecordTodoCompletedUseCase implements IUseCase<IRecordTodoCompletedCommand> {

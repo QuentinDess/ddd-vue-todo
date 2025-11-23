@@ -11,10 +11,13 @@ import { GetStatisticUseCase } from '@/statistic/application/query/GetStatistic/
 import { StatisticPresenter } from '@/statistic/presentation/presenters/StatisticPresenter.ts'
 import type { IStatisticPresenter } from '@/statistic/application/presenters/IStatisticPresenter.ts'
 import TotalCreatedTodoBadge from '@/statistic/presentation/ui/components/TotalCreatedTodoBadge.vue'
-import { RecordTodoCompletedUseCase } from '@/statistic/application/command/RecordTodoTransition/RecordTodoCompletedUseCase.ts'
+import { RecordTodoCompletedUseCase } from '@/statistic/application/command/RecordTodoCompleted/RecordTodoCompletedUseCase.ts'
+import TotalAbortedTodoBadge from '@/statistic/presentation/ui/components/TotalAbortedTodoBadge.vue'
+import { RecordTodoAbortedUseCase } from '@/statistic/application/command/RecordTodoAborted/RecordTodoAbortedUseCase.ts'
 export function statisticModule(_router: Router) {
   registerModuleAction(TotalCompletedTodoBadge)
   registerModuleAction(TotalCreatedTodoBadge)
+  registerModuleAction(TotalAbortedTodoBadge)
   container
     .bind<IGlobalTodoStatisticRepository>(INTERFACES.IGlobalTodoStatisticRepository)
     .to(LocalStorageGlobalTodoStatisticsRepository)
@@ -22,7 +25,8 @@ export function statisticModule(_router: Router) {
   container.bind(TodoStatisticSubscriber).toSelf().inSingletonScope()
   container.bind(RecordTodoCreatedUseCase).toSelf()
   container.bind(GetStatisticUseCase).toSelf()
+  container.bind(RecordTodoAbortedUseCase).toSelf()
   container.bind(RecordTodoCompletedUseCase).toSelf()
-  const todoStatisticSubscriber = container.get(TodoStatisticSubscriber)
+  const todoStatisticSubscriber = container.get<TodoStatisticSubscriber>(TodoStatisticSubscriber)
   todoStatisticSubscriber.subscribe()
 }

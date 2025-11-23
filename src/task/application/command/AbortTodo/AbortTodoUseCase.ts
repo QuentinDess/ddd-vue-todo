@@ -9,6 +9,7 @@ import { DomainError } from '@/core/domain/error/DomainError.ts'
 import type { IGetTodoPresenter } from '@/task/application/presenters/IGetTodoPresenter.ts'
 import { ApplicationTodoTransitionEvent } from '@/task/application/events/ApplicationTodoTransitionEvent.ts'
 import type { IAbortTodoCommand } from '@/task/application/command/AbortTodo/IAbortTodoCommand.ts'
+import { TodoAbortedIntegrationEvent } from '@/task/integration/events/TodoAbortedIntegrationEvent.ts'
 
 @injectable()
 export class AbortTodoUseCase implements IUseCase<IAbortTodoCommand, void> {
@@ -27,6 +28,7 @@ export class AbortTodoUseCase implements IUseCase<IAbortTodoCommand, void> {
       await this._todoRepository.update(todo)
       todo.pullDomainEvents().forEach((event) => this._eventBus.publish(event))
       this._eventBus.publish(new ApplicationTodoTransitionEvent(todo))
+      this._eventBus.publish(new TodoAbortedIntegrationEvent(todo.id))
       presenter.presentTodo(todo)
     } catch (err) {
       if (err instanceof DomainError) {

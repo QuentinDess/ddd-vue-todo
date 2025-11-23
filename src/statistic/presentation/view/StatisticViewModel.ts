@@ -3,6 +3,7 @@ import type { IStatisticViewModel } from '@/statistic/application/view/IStatisti
 export class StatisticViewModel implements IStatisticViewModel {
   constructor(
     public readonly totalCompleted: number,
-    public readonly totalCreated: number
+    public readonly totalCreated: number,
+    public readonly totalAborted: number
   ) {}
 }
