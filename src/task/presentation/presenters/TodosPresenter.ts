@@ -1,9 +1,9 @@
 import type { IGetTodosPresenter } from '@/task/application/presenters/IGetTodosPresenter.ts'
 import type { Todo } from '@/task/domain/entity/Todo.ts'
 import { TodoViewModel } from '@/task/presentation/view/TodoViewModel.ts'
-import { ErrorTodoPresenter } from '@/task/presentation/presenters/ErrorTodoPresenter.ts'
+import { ErrorPresenter } from '@/core/application/presenters/ErrorPresenter.ts'
 
-export class TodosPresenter extends ErrorTodoPresenter implements IGetTodosPresenter {
+export class TodosPresenter extends ErrorPresenter implements IGetTodosPresenter {
   public viewModel?: TodoViewModel[]
   presentTodoList(todoList: Todo[]): void {
     const todoListView = []

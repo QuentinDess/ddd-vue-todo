@@ -17,10 +17,11 @@ import type { IDeleteTodoPresenter } from '@/task/application/presenters/IDelete
 import { CompleteTodoUseCase } from '@/task/application/command/CompleteTodo/CompleteTodoUseCase.ts'
 import { AbortTodoUseCase } from '@/task/application/command/AbortTodo/AbortTodoUseCase.ts'
 import CreateTodoButton from '@/task/presentation/ui/components/CreateTodoButton.vue'
-import { navActions } from '@/core/presentation/ui/store/navStore.ts'
+import { registerNavAction } from '@/core/presentation/ui/store/navStore.ts'
 import { CreateTodoUseCase } from '@/task/application/command/CreateTodo/CreateTodoUseCase.ts'
 import type { ITodoFactory } from '@/task/domain/factory/ITodoFactory.ts'
 import { TodoFactory } from '@/task/domain/factory/TodoFactory.ts'
+import { TodoEventACLSubscriber } from '@/task/application/listeners/TodoEventACLSubscriber.ts'
 
 export function todoModule(router: Router) {
   router.addRoute({
@@ -28,7 +29,7 @@ export function todoModule(router: Router) {
     name: 'Todo',
     component: TodoPage
   })
-  navActions.push(CreateTodoButton)
+  registerNavAction(CreateTodoButton)
   container.bind<ITodoRepository>(INTERFACES.ITodoRepository).to(LocalStorageTodoRepository)
   container.bind<IGetTodosPresenter>(INTERFACES.IGetTodosPresenter).to(TodosPresenter)
   container.bind<IGetTodoPresenter>(INTERFACES.IGetTodoPresenter).to(TodoPresenter).inRequestScope()
@@ -41,4 +42,7 @@ export function todoModule(router: Router) {
   container.bind(TodoSeederService).toSelf()
   container.bind(AbortTodoUseCase).toSelf()
   container.bind(CreateTodoUseCase).toSelf()
+  container.bind(TodoEventACLSubscriber).toSelf().inSingletonScope()
+  const todoEventACLSubscriber = container.get(TodoEventACLSubscriber)
+  todoEventACLSubscriber.subscribe()
 }

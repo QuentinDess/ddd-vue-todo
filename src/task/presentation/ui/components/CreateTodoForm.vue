@@ -9,9 +9,13 @@ const createTodoFormData = {
   description: '',
   due_date: '2025-11-24'
 }
-const submit = (data: ICreateTodoCommand) => {
-  createTodo({ ...data })
-  closeSheet()
+const submit = async (data: ICreateTodoCommand) => {
+  try {
+    await createTodo({ ...data })
+    closeSheet()
+  } catch (_error) {
+    console.error(_error)
+  }
 }
 </script>
 

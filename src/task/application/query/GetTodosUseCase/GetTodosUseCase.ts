@@ -1,4 +1,4 @@
-import type { IUseCase } from '@/task/application/IUseCase.ts'
+import type { IUseCase } from '@/core/application/IUseCase.ts'
 import type { IGetTodosDto } from '@/task/application/query/GetTodosUseCase/IGetTodosDto.ts'
 import { inject, injectable } from 'inversify'
 import { INTERFACES } from '@/task/infrastructure/di/interfaces.ts'

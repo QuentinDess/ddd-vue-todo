@@ -28,7 +28,7 @@ export default defineConfig({
       ],
       dts: true,
       viteOptimizeDeps: true,
-      dirs: ['src/task/presentation/ui/stores/**']
+      dirs: ['src/task/presentation/ui/stores/**', 'src/statistic/presentation/ui/stores/**']
     }),
     Components({
       /* options */

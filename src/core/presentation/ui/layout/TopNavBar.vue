@@ -11,7 +11,7 @@ const toggleDark = useToggle(isDark)
 
 <template>
   <nav class="h-16 w-screen border-b bg-muted/40 flex items-center px-6">
-    <div class="flex-1 flex items-center">
+    <div class="flex-1 flex items-center gap-2">
       <component v-for="(Module, i) in navModules" :key="i" :is="Module" />
     </div>
 

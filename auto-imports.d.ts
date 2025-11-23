@@ -67,6 +67,7 @@ declare global {
   const useRoute: typeof import('vue-router').useRoute
   const useRouter: typeof import('vue-router').useRouter
   const useSlots: typeof import('vue').useSlots
+  const useStatisticStore: typeof import('./src/statistic/presentation/ui/stores/statisticStore').useStatisticStore
   const useTemplateRef: typeof import('vue').useTemplateRef
   const useTodoStore: typeof import('./src/task/presentation/ui/stores/todoStore').useTodoStore
   const useUiEventStore: typeof import('./src/task/presentation/ui/stores/uiTodoEventStore').useUiEventStore

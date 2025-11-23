@@ -124,4 +124,8 @@ export class Todo {
   ): Todo {
     return new Todo(title, description, completionWindow, status, id)
   }
+
+  completionTime() {
+    return new Date().getTime() - this._completionWindow.getCreatedAt().getTime()
+  }
 }

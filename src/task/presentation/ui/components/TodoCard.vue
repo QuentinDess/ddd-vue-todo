@@ -39,7 +39,6 @@ const cardClass = computed(() => {
 })
 watch(activeError, () => {
   if (activeError) {
-    console.log(activeError)
     editableTodo.value = {
       title: props.todo.title,
       description: props.todo.description
@@ -80,7 +79,7 @@ const sendUpdate = async (): Promise<void> => {
 
 <template>
   <Card
-    class="bg-opacity-25 border shadow-sm hover:shadow-md transition-shadow rounded-xs cursor-pointer select-none"
+    class="bg-opacity-25 border shadow-sm hover:shadow-md transition-shadow rounded-lg cursor-pointer select-none"
     :class="cardClass"
   >
     <CardHeader class="flex flex-row items-start justify-between py-1">
@@ -97,7 +96,7 @@ const sendUpdate = async (): Promise<void> => {
           </div>
           <h3
             v-if="!isEditMode"
-            class="text-gray-900 font-medium text-base px-1 py-1 my-1"
+            class="text-gray-900 text-lg px-1 py-1 my-1"
             :class="{ 'line-through': isCompleted }"
           >
             {{ todo.title }}
@@ -106,11 +105,11 @@ const sendUpdate = async (): Promise<void> => {
           <input
             v-else
             v-model="editableTodo.title"
-            class="font-medium text-base p-0 border text-gray-900 w-full border-b-black focus:outline-none py-1 my-1"
+            class="font-medium text-lg p-0 border text-gray-900 w-full border-b-black focus:outline-none py-1 my-1"
             :disabled="isCompleted"
           />
-          <p class="text-xs text-gray-700 mt-1">Created: {{ todo.createdAt }}</p>
-          <p class="text-xs text-gray-700 mt-1">Due Date: {{ todo.dueDate }}</p>
+          <p class="text-sm text-gray-800 mt-1">Created: {{ todo.createdAt }}</p>
+          <p class="text-sm text-gray-800 mt-1">Due Date: {{ todo.dueDate }}</p>
         </div>
       </div>
 
@@ -129,7 +128,7 @@ const sendUpdate = async (): Promise<void> => {
           v-if="canBeEdited"
           variant="ghost"
           size="icon"
-          class="h-8 w-8 text-red-600 hover:text-ored-700 hover:cursor-pointer"
+          class="h-8 w-8 text-red-600 hover:text-red-700 hover:cursor-pointer"
           @click="emits('abort', todo.id)"
         >
           <Ban class="h-4 w-4" />
@@ -165,7 +164,9 @@ const sendUpdate = async (): Promise<void> => {
     </CardHeader>
 
     <CardContent class="pb-4 flex items-center justify-center">
-      <p v-if="!isEditMode" class="text-sm text-gray-700">{{ todo.description }}</p>
+      <p v-if="!isEditMode" class="w-full text-sm text-gray-700">
+        {{ todo.description }}
+      </p>
       <div
         v-else
         class="grid w-full py-2 border-b border-black text-gray-700 text-sm [&>textarea]:text-inherit [&>textarea]:resize-none [&>textarea]:overflow-hidden [&>textarea]:[grid-area:1/1/2/2] after:[grid-area:1/1/2/2] after:whitespace-pre-wrap after:invisible after:content-[attr(data-cloned-val)] after:border-b after:border-black"
