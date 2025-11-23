@@ -44,7 +44,7 @@ export const useTodoStore = defineStore('todo-store', () => {
     if (errorViewModel) return useErrorStore().setActiveError(errorViewModel)
     if (viewModel) {
       todos.value = todos.value.map((t: TodoViewModel) =>
-        t.id === presenter.viewModel?.id ? { ...presenter.viewModel } : t
+        t.id === presenter.viewModel?.id ? presenter.viewModel : t
       )
     }
   }
@@ -71,7 +71,7 @@ export const useTodoStore = defineStore('todo-store', () => {
     if (errorViewModel) return useErrorStore().setActiveError(errorViewModel)
     if (viewModel) {
       todos.value = todos.value.map((t: TodoViewModel) =>
-        t.id === presenter.viewModel?.id ? { ...presenter.viewModel } : t
+        t.id === presenter.viewModel?.id ? presenter.viewModel : t
       )
     }
   }
@@ -84,7 +84,7 @@ export const useTodoStore = defineStore('todo-store', () => {
     if (errorViewModel) return useErrorStore().setActiveError(errorViewModel)
     if (viewModel) {
       todos.value = todos.value.map((t: TodoViewModel) =>
-        t.id === presenter.viewModel?.id ? { ...presenter.viewModel } : t
+        t.id === presenter.viewModel?.id ? presenter.viewModel : t
       )
     }
   }

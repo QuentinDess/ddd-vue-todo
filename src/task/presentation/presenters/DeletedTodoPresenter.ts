@@ -1,4 +1,3 @@
-import type { Todo } from '@/task/domain/entity/Todo.ts'
 import { ErrorPresenter } from '@/core/application/presenters/ErrorPresenter.ts'
 import type { IDeleteTodoPresenter } from '@/task/application/presenters/IDeleteTodoPresenter.ts'
 

@@ -2,9 +2,7 @@ import { Todo } from '@/task/domain/entity/Todo'
 import type { ITodoRepository } from '@/task/domain/repository/ITodoRepository'
 import { injectable, inject } from 'inversify'
 import { TodoSeederService } from '@/task/infrastructure/fixtures/TodoSeederService'
-import { TodoTitle } from '@/task/domain/value_objects/TodoTitle.ts'
 import type { TodoStatus } from '@/task/domain/entity/TodoStatus.ts'
-import { TodoDescription } from '@/task/domain/value_objects/TodoDescription.ts'
 import { INTERFACES } from '@/task/infrastructure/di/interfaces.ts'
 import type { ITodoFactory } from '@/task/domain/factory/ITodoFactory.ts'
 
@@ -64,7 +62,7 @@ export class LocalStorageTodoRepository implements ITodoRepository {
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(serialized))
   }
-  public async findAllBy(filter: string[]): Promise<Todo[]> {
+  public async findAllBy(_filter: string[]): Promise<Todo[]> {
     return this.load()
   }
 
