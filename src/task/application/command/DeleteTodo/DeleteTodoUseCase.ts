@@ -34,7 +34,7 @@ export class DeleteTodoUseCase implements IUseCase<IDeleteTodoCommand, void> {
         todo.pullDomainEvents().map(async (event) => await this._eventBus.publish(event))
       )
       await this._eventBus.publish(
-        new TodoDeletedIntegrationEvent(todo.status, todo.completionTime)
+        new TodoDeletedIntegrationEvent(todo.status, todo.completionTime())
       )
     } catch (err) {
       if (err instanceof DomainError) {
