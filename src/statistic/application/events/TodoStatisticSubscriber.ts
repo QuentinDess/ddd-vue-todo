@@ -14,15 +14,17 @@ export class TodoStatisticSubscriber {
   constructor(@inject(CORE_INTERFACES.IEventBus) private _eventBus: IEventBus) {}
 
   subscribe(): void {
-    this._eventBus.subscribe(TodoCreatedIntegrationEvent, (event: TodoCreatedIntegrationEvent) =>
-      this.onTodoCreated(event)
+    this._eventBus.subscribe(
+      TodoCreatedIntegrationEvent,
+      async (event: TodoCreatedIntegrationEvent) => await this.onTodoCreated(event)
     )
     this._eventBus.subscribe(
       TodoCompletedIntegrationEvent,
-      (event: TodoCompletedIntegrationEvent) => this.onTodoCompleted(event)
+      async (event: TodoCompletedIntegrationEvent) => await this.onTodoCompleted(event)
     )
-    this._eventBus.subscribe(TodoAbortedIntegrationEvent, (event: TodoAbortedIntegrationEvent) =>
-      this.onTodoAborted(event)
+    this._eventBus.subscribe(
+      TodoAbortedIntegrationEvent,
+      async (event: TodoAbortedIntegrationEvent) => await this.onTodoAborted(event)
     )
   }
 

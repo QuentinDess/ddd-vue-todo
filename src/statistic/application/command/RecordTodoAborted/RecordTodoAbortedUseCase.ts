@@ -19,6 +19,6 @@ export class RecordTodoAbortedUseCase implements IUseCase<IRecordTodoAbortedComm
     const statistic = await this._globalTodoStatisticRepository.get()
     statistic.recordAborted()
     await this._globalTodoStatisticRepository.save(statistic)
-    this._eventBus.publish(new ApplicationStatisticUpdatedEvent())
+    await this._eventBus.publish(new ApplicationStatisticUpdatedEvent())
   }
 }
