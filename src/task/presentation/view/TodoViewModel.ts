@@ -12,7 +12,6 @@ export class TodoViewModel implements ITodoViewModel {
   ) {}
 
   public get chillIcon(): string | null {
-    console.log(this.chillometer)
     if (this.chillometer === null) return null
 
     if (this.chillometer >= 75) return '🔥'

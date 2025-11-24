@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { PlusIcon } from 'lucide-vue-next'
-import type { ICreateTodoCommand } from '@/task/application/command/CreateTodo/ICreateTodoCommand.ts'
 const { createTodo } = useTodoStore()
 import { closeSheet } from '@/core/presentation/ui/store/sheetStore.ts'
+import type { CreateTodoPayload } from '@/task/presentation/ui/dto/CreateTodoPayload.ts'
 
 const createTodoFormData = {
   title: '',
   description: '',
-  due_date: '2025-11-24'
+  dueDate: '2025-11-24'
 }
-const submit = async (data: ICreateTodoCommand) => {
+const submit = async (data: CreateTodoPayload) => {
   try {
-    console.log(data)
     await createTodo({ ...data })
     closeSheet()
   } catch (_error) {
@@ -71,7 +70,7 @@ const submit = async (data: ICreateTodoCommand) => {
 
         <FormKit
           type="date"
-          v-model="createTodoFormData.due_date"
+          v-model="createTodoFormData.dueDate"
           label="Due Date"
           id="dueDate"
           name="dueDate"

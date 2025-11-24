@@ -3,19 +3,20 @@ import { FlagIcon, CheckCircle, Pencil, Trash, Ban } from 'lucide-vue-next'
 import { Card, CardContent, CardHeader } from '@/core/presentation/ui/components/card'
 import { Button } from '@/core/presentation/ui/components/button'
 import { Badge } from '@/core/presentation/ui/components/badge'
-import { TodoViewModel } from '@/task/presentation/view/TodoViewModel.ts'
 import { computed, ref, watch } from 'vue'
 import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPatchTodoCommand.ts'
 import { useErrorStore } from '@/core/presentation/ui/store/error.ts'
+import type { ITodoViewModel } from '@/task/application/query/GetTodosUseCase/ITodoViewModel.ts'
+import type { EditTodoPayload } from '@/task/presentation/ui/dto/EdtitTodoPayload.ts'
 const errorStore = useErrorStore()
 const { activeError } = storeToRefs(errorStore)
 
 const props = defineProps<{
-  todo: TodoViewModel
+  todo: ITodoViewModel
 }>()
 const isEditMode = ref<boolean>(false)
 
-const editableTodo = ref<Partial<IPatchTodoCommand>>({
+const editableTodo = ref<Partial<EditTodoPayload>>({
   title: props.todo.title,
   description: props.todo.description
 })
@@ -65,7 +66,7 @@ const emits = defineEmits<{
   (e: 'delete', id: string): void
   (e: 'complete', id: string): void
   (e: 'abort', id: string): void
-  (e: 'update', updated: Partial<IPatchTodoCommand> & { id: string }): void
+  (e: 'update', updated: EditTodoPayload): void
 }>()
 
 const sendUpdate = async (): Promise<void> => {

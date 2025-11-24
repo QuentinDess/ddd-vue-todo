@@ -1,2 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ITodoViewModel {}
+export interface ITodoViewModel {
+  id: string
+  title: string
+  description: string
+  createdAt: string
+  dueDate: string
+  status: string
+  chillometer: number | null
+}
