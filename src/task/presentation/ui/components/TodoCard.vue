@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader } from '@/core/presentation/ui/components
 import { Button } from '@/core/presentation/ui/components/button'
 import { Badge } from '@/core/presentation/ui/components/badge'
 import { computed, ref, watch } from 'vue'
-import type { IPatchTodoCommand } from '@/task/application/command/PatchTodo/IPatchTodoCommand.ts'
 import { useErrorStore } from '@/core/presentation/ui/store/error.ts'
 import type { ITodoViewModel } from '@/task/application/query/GetTodosUseCase/ITodoViewModel.ts'
 import type { EditTodoPayload } from '@/task/presentation/ui/dto/EdtitTodoPayload.ts'

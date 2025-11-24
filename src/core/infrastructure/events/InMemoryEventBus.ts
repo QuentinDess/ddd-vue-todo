@@ -11,10 +11,7 @@ export class InMemoryEventBus implements IEventBus {
   private queue: any[] = []
   private isProcessing = false
 
-  subscribe<T extends object>(
-    eventType: Constructor<T>,
-    handler: (event: T) => void | Promise<void>
-  ): () => void {
+  subscribe<T extends object>(eventType: Constructor<T>, handler: (event: T) => void): () => void {
     if (!this.handlers.has(eventType)) {
       this.handlers.set(eventType, new Set())
     }

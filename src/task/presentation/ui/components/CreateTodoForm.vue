@@ -7,7 +7,7 @@ import type { CreateTodoPayload } from '@/task/presentation/ui/dto/CreateTodoPay
 const createTodoFormData = {
   title: '',
   description: '',
-  dueDate: '2025-11-24'
+  dueDate: new Date(Date.now() + 86400000).toISOString().slice(0, 10)
 }
 const submit = async (data: CreateTodoPayload) => {
   try {

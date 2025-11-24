@@ -15,42 +15,39 @@ import { RecordTodoDeletedUseCase } from '@/statistic/application/command/Record
 export class TodoStatisticSubscriber {
   constructor(@inject(CORE_INTERFACES.IEventBus) private _eventBus: IEventBus) {}
 
-  async subscribe(): Promise<void> {
-    await this._eventBus.subscribe(
-      TodoCreatedIntegrationEvent,
-      async (event: TodoCreatedIntegrationEvent) => await this.onTodoCreated(event)
+  subscribe(): void {
+    this._eventBus.subscribe(TodoCreatedIntegrationEvent, (event: TodoCreatedIntegrationEvent) =>
+      this.onTodoCreated(event)
     )
-    await this._eventBus.subscribe(
+    this._eventBus.subscribe(
       TodoCompletedIntegrationEvent,
-      async (event: TodoCompletedIntegrationEvent) => await this.onTodoCompleted(event)
+      (event: TodoCompletedIntegrationEvent) => this.onTodoCompleted(event)
     )
-    await this._eventBus.subscribe(
-      TodoAbortedIntegrationEvent,
-      async (event: TodoAbortedIntegrationEvent) => await this.onTodoAborted(event)
+    this._eventBus.subscribe(TodoAbortedIntegrationEvent, (event: TodoAbortedIntegrationEvent) =>
+      this.onTodoAborted(event)
     )
-    await this._eventBus.subscribe(
-      TodoDeletedIntegrationEvent,
-      async (event: TodoDeletedIntegrationEvent) => await this.onTodoDeleted(event)
+    this._eventBus.subscribe(TodoDeletedIntegrationEvent, (event: TodoDeletedIntegrationEvent) =>
+      this.onTodoDeleted(event)
     )
   }
 
-  private async onTodoCreated(_event: TodoCreatedIntegrationEvent) {
+  private onTodoCreated(_event: TodoCreatedIntegrationEvent) {
     const handler = container.get<RecordTodoCreatedUseCase>(RecordTodoCreatedUseCase)
-    await handler.execute({})
+    handler.execute({})
   }
 
-  private async onTodoCompleted(event: TodoCompletedIntegrationEvent) {
+  private onTodoCompleted(event: TodoCompletedIntegrationEvent) {
     const handler = container.get<RecordTodoCompletedUseCase>(RecordTodoCompletedUseCase)
-    await handler.execute({ totalDuration: event.totalDuration })
+    handler.execute({ totalDuration: event.totalDuration })
   }
 
-  private async onTodoAborted(_event: TodoAbortedIntegrationEvent) {
+  private onTodoAborted(_event: TodoAbortedIntegrationEvent) {
     const handler = container.get<RecordTodoAbortedUseCase>(RecordTodoAbortedUseCase)
-    await handler.execute({})
+    handler.execute({})
   }
 
-  private async onTodoDeleted(event: TodoDeletedIntegrationEvent) {
+  private onTodoDeleted(event: TodoDeletedIntegrationEvent) {
     const handler = container.get<RecordTodoDeletedUseCase>(RecordTodoDeletedUseCase)
-    await handler.execute({ status: event.status, durationMs: event.completionTime })
+    handler.execute({ status: event.status, durationMs: event.completionTime })
   }
 }

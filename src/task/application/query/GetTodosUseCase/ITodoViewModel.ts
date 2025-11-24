@@ -6,4 +6,5 @@ export interface ITodoViewModel {
   dueDate: string
   status: string
   chillometer: number | null
+  get chillIcon(): string | null
 }
