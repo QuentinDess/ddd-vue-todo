@@ -1,6 +1,6 @@
 # task-manager
 
-Todo app following principle of Clean Architecture with vue typescript
+Todo app following principle of Clean Architecture and DDD with vue typescript
 
 ## Design : 
 
