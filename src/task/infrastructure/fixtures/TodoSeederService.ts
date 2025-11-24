@@ -1,5 +1,5 @@
 import { fakerFR as faker } from '@faker-js/faker'
-import { TodoStatus } from '@/task/domain/entity/TodoStatus.ts'
+import { TodoStatus } from '@/task/domain/value_objects/TodoStatus.ts'
 import { v4 as uuidv4 } from 'uuid'
 import type { ISerializedTodo } from '@/task/infrastructure/repository/LocalStorageTodoRepository.ts'
 import { INTERFACES as CORE_INTERFACES } from '@/core/infrastructure/di/interfaces.ts'

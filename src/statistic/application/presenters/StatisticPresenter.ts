@@ -1,5 +1,5 @@
 import { ErrorPresenter } from '@/core/application/presenters/ErrorPresenter.ts'
-import { StatisticViewModel } from '@/statistic/presentation/view/StatisticViewModel.ts'
+import { StatisticViewModel } from '@/statistic/application/view/StatisticViewModel.ts'
 import type { GlobalTodoStatistic } from '@/statistic/domain/entity/GlobalTodoStatistic.ts'
 import type { IStatisticPresenter } from '@/statistic/application/presenters/IStatisticPresenter.ts'
 

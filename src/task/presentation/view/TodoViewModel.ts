@@ -1,4 +1,4 @@
-import type { ITodoViewModel } from '@/task/application/query/GetTodosUseCase/ITodoViewModel.ts'
+import type { ITodoViewModel } from '@/task/application/views/ITodoViewModel.ts'
 
 export class TodoViewModel implements ITodoViewModel {
   constructor(

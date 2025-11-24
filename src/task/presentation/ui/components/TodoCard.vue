@@ -5,7 +5,7 @@ import { Button } from '@/core/presentation/ui/components/button'
 import { Badge } from '@/core/presentation/ui/components/badge'
 import { computed, ref, watch } from 'vue'
 import { useErrorStore } from '@/core/presentation/ui/store/error.ts'
-import type { ITodoViewModel } from '@/task/application/query/GetTodosUseCase/ITodoViewModel.ts'
+import type { ITodoViewModel } from '@/task/application/views/ITodoViewModel.ts'
 import type { EditTodoPayload } from '@/task/presentation/ui/dto/EdtitTodoPayload.ts'
 const errorStore = useErrorStore()
 const { activeError } = storeToRefs(errorStore)

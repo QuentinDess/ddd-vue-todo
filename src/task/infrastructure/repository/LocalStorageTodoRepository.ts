@@ -2,7 +2,7 @@ import { Todo } from '@/task/domain/entity/Todo'
 import type { ITodoRepository } from '@/task/domain/repository/ITodoRepository'
 import { injectable, inject } from 'inversify'
 import { TodoSeederService } from '@/task/infrastructure/fixtures/TodoSeederService'
-import type { TodoStatus } from '@/task/domain/entity/TodoStatus.ts'
+import type { TodoStatus } from '@/task/domain/value_objects/TodoStatus.ts'
 import { INTERFACES } from '@/task/infrastructure/di/interfaces.ts'
 import type { ITodoFactory } from '@/task/domain/factory/ITodoFactory.ts'
 

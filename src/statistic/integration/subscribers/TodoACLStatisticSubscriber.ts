@@ -12,7 +12,7 @@ import { TodoDeletedIntegrationEvent } from '@/task/integration/events/TodoDelet
 import { RecordTodoDeletedUseCase } from '@/statistic/application/command/RecordTodoDeleted/RecordTodoDeletedUseCase.ts'
 
 @injectable()
-export class TodoStatisticSubscriber {
+export class TodoACLStatisticSubscriber {
   constructor(@inject(CORE_INTERFACES.IEventBus) private _eventBus: IEventBus) {}
 
   subscribe(): void {

@@ -3,7 +3,7 @@ import { TodoDescription } from '@/task/domain/value_objects/TodoDescription.ts'
 import { TodoTitle } from '@/task/domain/value_objects/TodoTitle.ts'
 import { CompletionWindow } from '@/task/domain/value_objects/CompletionWindow.ts'
 import type { ITodoFactory } from '@/task/domain/factory/ITodoFactory.ts'
-import type { TodoStatus } from '@/task/domain/entity/TodoStatus.ts'
+import type { TodoStatus } from '@/task/domain/value_objects/TodoStatus.ts'
 
 export class TodoFactory implements ITodoFactory {
   public fromPrimitive(raw: {

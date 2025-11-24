@@ -1,5 +1,5 @@
 import { DomainError } from '@/core/domain/error/DomainError.ts'
-import type { TodoStatus } from '@/task/domain/entity/TodoStatus.ts'
+import type { TodoStatus } from '@/task/domain/value_objects/TodoStatus.ts'
 
 export class CannotDoTodoTransition extends DomainError {
   public constructor(from: TodoStatus, to: TodoStatus) {

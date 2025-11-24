@@ -11,7 +11,7 @@ import type { IGetTodosPresenter } from '@/task/application/presenters/IGetTodos
 import type { IGetTodoPresenter } from '@/task/application/presenters/IGetTodoPresenter.ts'
 import type { IDeleteTodoPresenter } from '@/task/application/presenters/IDeleteTodoPresenter.ts'
 
-import type { ITodoViewModel } from '@/task/application/query/GetTodosUseCase/ITodoViewModel.ts'
+import type { ITodoViewModel } from '@/task/application/views/ITodoViewModel.ts'
 import { useErrorStore } from '@/core/presentation/ui/store/error.ts'
 import type { EditTodoPayload } from '@/task/presentation/ui/dto/EdtitTodoPayload.ts'
 import type { CreateTodoPayload } from '@/task/presentation/ui/dto/CreateTodoPayload.ts'

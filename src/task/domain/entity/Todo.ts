@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { TodoStatus } from '@/task/domain/entity/TodoStatus.ts'
+import { TodoStatus } from '@/task/domain/value_objects/TodoStatus.ts'
 import type { ITodoEvent } from '@/task/domain/events/ITodoEvent.ts'
 import { TodoDeletedEvent } from '@/task/domain/events/TodoDeletedEvent.ts'
 import { CannotDeleteCompletedTodo } from '@/task/domain/error/CannotDeleteCompletedTodo.ts'
